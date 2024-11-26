@@ -1,1 +1,65 @@
-<p>reset works!</p>
+<div class="container-fluid vh-100 d-flex  align-items-center p-0">
+    <div class="row w-100 m-0">
+      <div
+        class="col-12 d-flex justify-content-center align-items-center bg-image"
+        
+      >
+        <div class="form-container p-4 rounded-5 p-5 shadow-lg">
+            <div class="logo text-center">
+                <img  src="../../../../assets/images/SAFARNY.png" >
+            </div>
+        
+          <h3 class="text-white mt-4   ">reset Your Password?</h3>
+          <form>
+            
+            <div class="mb-3">
+              <label for="email" class="form-label text-white">Email :</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="user@example.com"
+              />
+            </div>
+            <div class="mb-3">
+                <label for="OTP" class="form-label text-white">OTP :</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="OPT"
+                  placeholder="OTP"
+                />
+              </div>
+              <div class="mb-3 position-relative">
+                <label for="password" class="form-label text-white">New Password :</label>
+
+                <input
+                [type]="isHide?'password':'text'"
+                  class="form-control"
+                  id="password"
+                placeholder="New Password :"
+                />
+                <a class="pss-icon" (click)="isHide=!isHide">
+                    <i class="fa-solid "
+                    [class]="isHide? 'fa-eye-slash' :' fa-eye'"></i></a>
+
+              </div>
+              <div class="mb-3 position-relative">
+                <label for="Confirm" class="form-label text-white">Confirm New Password :</label>
+                <input
+                [type]="isHide?'password':'text'"
+                  class="form-control"
+                  id="Confirm"
+                  placeholder="Confirm New Password :"
+                />
+                <a class="pss-icon" (click)="isHide=!isHide">
+                    <i class="fa-solid "
+                    [class]="isHide? 'fa-eye-slash' :' fa-eye'"></i></a>
+              </div>
+            <button type="submit" class="btn btn-color w-100">Reset Password</button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+  </div>
