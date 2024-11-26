@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./reset.component.scss']
 })
 export class ResetComponent {
-
+isHide:boolean=true
 }

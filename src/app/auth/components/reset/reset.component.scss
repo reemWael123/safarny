@@ -1,0 +1,62 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container-fluid {
+    height: 100vh;
+    display: flex;
+   
+    align-items: center;
+    background: url('../../../../assets/images/Component\ 28.png') no-repeat center center;
+    background-size: cover;
+  }
+  
+  .form-container {
+    background: #c2ae8f6c;/* Semi-transparent white */
+    backdrop-filter: blur(8px); /* Blur effect */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  
+    width: 100%;
+    max-width: 400px;
+  }
+  .btn-color{
+    background-color: #DFB779;
+    color: white;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #6c5b7b; /* Match with the theme */
+  }
+  
+  h3 {
+    font-size: 1.25rem;
+    color: #333;
+  }
+  
+  .form-control {
+    margin-bottom: 15px;
+  }
+  
+  .btn-primary {
+    width: 100%;
+  }
+  
+  .text-primary {
+    color: #6c5b7b;
+  }
+  
+  .text-primary:hover {
+    text-decoration: underline;
+  }
+  .pss-icon{
+    position: absolute;
+    top: 40px;
+    right: 7px;
+    text-decoration: none;
+    color: black;
+}
