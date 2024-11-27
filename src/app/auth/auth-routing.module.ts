@@ -6,15 +6,16 @@ import { RegisterComponent } from './components/register/register.component';
 import { ForgetpasswordComponent } from './components/forgetpassword/forgetpassword.component';
 import { ResetComponent } from './components/reset/reset.component';
 
-const routes: Routes = [ 
+const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component:LoginComponent },
-  { path: 'regester', component:RegisterComponent },
-  { path: 'Forget', component: ForgetpasswordComponent },
-  { path: 'reset', component: ResetComponent }];
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'forget', component: ForgetpasswordComponent },
+  { path: 'reset', component: ResetComponent },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}
