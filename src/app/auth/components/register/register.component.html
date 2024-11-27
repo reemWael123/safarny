@@ -1,1 +1,62 @@
-<p>register works!</p>
+<div class="container-fluid vh-100 d-flex align-items-center p-0">
+  <div class="row w-100 m-0">
+    <div
+      class="col-12 d-flex justify-content-center align-items-center bg-image"
+    >
+      <div class="form-container p-4 rounded-5 p-5 shadow-lg">
+        <div class="logo text-center">
+          <img src="../../../../assets/images/SAFARNY.png" />
+        </div>
+
+        <h3 class="login-text text-white mt-4">Sign Up</h3>
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label text-white">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              placeholder="name"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label text-white">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="user@example.com"
+            />
+          </div>
+
+          <div class="mb-4 position-relative">
+            <label for="password" class="form-label text-white">Password</label>
+
+            <input
+              [type]="isHide ? 'password' : 'text'"
+              class="form-control"
+              id="password"
+              placeholder="Password"
+            />
+            <a class="pss-icon" (click)="isHide = !isHide">
+              <i
+                class="fa-solid"
+                [class]="isHide ? 'fa-eye-slash' : ' fa-eye'"
+              ></i
+            ></a>
+          </div>
+
+          <button type="submit" class="btn btn-color w-100 mb-4">
+            Sign Up
+          </button>
+
+          <p class="text-center mb-4 have-account">
+            you already have an account?
+            <a [routerLink]="['../login']" class="login-link">Login</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
