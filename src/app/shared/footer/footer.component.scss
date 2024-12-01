@@ -1,0 +1,126 @@
+/* Footer Container */
+.footer-container {
+    background-image: url('../../../assets/images/WhatsApp Image 2024-11-30 at 8.56.52 PM.jpeg'); /* Dark background */
+    background-size: cover;
+    color: #fff; /* White text */
+    padding: 2rem 1rem;
+    font-family: "Arial", sans-serif;
+  
+    .row {
+      display: flex;
+      flex-wrap: wrap; /* Wrap columns if needed */
+      gap: 20px; /* Spacing between columns */
+      justify-content: space-between;
+    }
+  
+    .col {
+      flex: 1 1 20%; /* Each column takes 20% of space */
+      min-width: 200px; /* Ensure a minimum width */
+    }
+  
+    /* Footer Brand Section */
+    .footer-brand {
+      h2 {
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
+      }
+  
+      p {
+        margin: 0.3rem 0;
+        font-size: 11px;
+        color: gray;
+      }
+  
+      hr {
+        border: 0;
+        border-top: 1px solid #555;
+        margin: 1rem 0;
+      }
+  
+      .contact-info {
+        p {
+          font-size: 0.9rem;
+          a {
+            color:gray;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  
+    /* Footer Links Section */
+    .footer-links {
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+  
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+  
+        li {
+            font-size: 11px;
+          margin: 0.5rem 0;
+         
+  
+          a {
+            color: gray;
+            text-decoration: none;
+            transition: color 0.3s;
+  
+            &:hover {
+              color: #bf813a;
+            }
+          }
+        }
+      }
+    }
+  
+    /* Footer Newsletter Section */
+    .footer-newsletter {
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+  
+      form {
+        .newsletter-input {
+          width: 100%;
+          padding: 0.5rem;
+          margin-bottom: 1rem;
+          border: none;
+          border-radius: 5px;
+        }
+  
+        .newsletter-btn {
+          width: 100%;
+          padding: 0.8rem;
+          background-color: #bf813a;
+          border: none;
+          color: #000;
+          border-radius: 5px;
+          font-weight: bold;
+          cursor: pointer;
+          transition: background-color 0.3s;
+  
+          &:hover {
+            background-color: #e67e22;
+          }
+        }
+  
+        .terms {
+          display: flex;
+          align-items: center;
+          font-size: 0.9rem;
+          color: #aaa;
+  
+          input {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+  
