@@ -22,10 +22,10 @@ body {
 
 header {
   background-color: #fff;
-  border-bottom: solid 3px black;
+  // border-bottom: solid 3px black; //FIXME
 
   .header {
-    height: 7.5rem;
+    height: 6rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -99,6 +99,7 @@ header {
 
         position: absolute;
         box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.1);
+        z-index: 99;
 
         .auth-list {
           list-style: none;
