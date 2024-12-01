@@ -6,13 +6,15 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
 import { SearchHomeComponent } from './components/search-home/search-home.component';
 import { HomeComponent } from './components/home/home.component';
+import { HeroComponent } from './components/hero/hero.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
     SearchHomeComponent,
-    HomeComponent
+    HomeComponent,
+    HeroComponent
   ],
   imports: [
     CommonModule,

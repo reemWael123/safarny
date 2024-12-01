@@ -1,0 +1,128 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  box-sizing: border-box;
+  font-family: "DM sans", sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.center-block {
+  width: 70rem;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #fff;
+  // border-bottom: solid 3px black; //FIXME
+
+  .header {
+    height: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .logo {
+      .logo-img {
+        height: 36px;
+      }
+    }
+
+    .nav {
+      .nav-list {
+        display: flex;
+        gap: 4rem;
+        list-style: none;
+        &__link:is(:link, :visited) {
+          text-decoration: none;
+          color: #3b2b00;
+          position: relative;
+          display: flex;
+          align-items: center;
+          flex-direction: column-reverse;
+
+          &::after {
+            content: "";
+            width: 0%;
+            height: 1.5px;
+            bottom: -4px;
+            position: absolute;
+            background-color: currentColor;
+            transition: all 0.3s;
+          }
+        }
+
+        &__link:is(:hover, :active) {
+          color: #f5ac2e;
+          transition: all 0.3s;
+
+          &::after {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .auth {
+      position: relative;
+      .auth-button {
+        background-color: #3b2b00;
+        width: 50px;
+        height: 50px;
+        border: none;
+        border-radius: 50%;
+        // padding: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .auth__icon {
+          stroke: #fff;
+          display: block;
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .auth-popup {
+        // border: solid 1px black;
+        background-color: #fff;
+        border-radius: 5px;
+        padding: 12px 24px;
+
+        position: absolute;
+        box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.1);
+        z-index: 99;
+
+        .auth-list {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          align-items: start;
+          gap: 8px;
+
+          .auth-link {
+            text-decoration: none;
+            padding: 2px 4px;
+            color: #7f7f7f;
+            display: flex;
+            gap: 4px;
+
+            .icon {
+              display: block;
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
