@@ -1,90 +1,119 @@
-<!-- <form action="">
-  <div class="container row">
-    <div class="col-md-5">
-      <div class="d-flex "> 
-        <label class="text-bg-dark mt-2 p-3">Pick a Date :  </label>
-        <input type="date" class="rounded-3 py-2 px-5 mt-2" />
+<form class="form">
+  <div class="inputs">
+    <button class="form__btn btn-date">
+      <!-- <input class="datepicker" type="date" /> -->
+
+      <svg class="icon-date">
+        <use
+          xlink:href="assets/icons/search-bar-icons/sprite.svg#icon-clock"
+        ></use>
+      </svg>
+      <div>
+        <span>Date Form</span>
+        <span>26/10/2024</span>
       </div>
-    </div>
-    
-    <div class="col-md-5">
-      <div class="d-flex "> 
-        <label class="text-bg-dark mt-2 p-3">Pick a Date :  </label>
-        <input type="date" class="rounded-3 py-2 px-5 mt-2" />
+    </button>
+
+    <button class="form__btn btn-guests">
+      <svg class="icon-group">
+        <use
+          xlink:href="assets/icons/search-bar-icons/sprite.svg#icon-group"
+        ></use>
+      </svg>
+      <div>
+        <span>Guests</span>
+        <span>0</span>
       </div>
-    </div>
-    
-   
+    </button>
+
+    <button class="form__btn btn-filter">
+      <svg class="icon-equalizer">
+        <use
+          xlink:href="assets/icons/search-bar-icons/sprite.svg#icon-equalizer"
+        ></use>
+      </svg>
+    </button>
   </div>
- 
-</form> -->
 
+  <button class="form__btn btn-search" type="submit">
+    <svg class="icon-search">
+      <use
+        xlink:href="assets/icons/search-bar-icons/sprite.svg#icon-search"
+      ></use>
+    </svg>
+    <span>Search</span>
+  </button>
+</form>
 
-  <section class="search-bar w-75 mx-auto rounded">
-    <div class="search-container p-4">
-      <!-- Date Selector -->
-      <mat-form-field appearance="fill" class="search-item">
-        <mat-label>Date From</mat-label>
-
-        <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+<!--
+  
+<section class="search-bar rounded">
+  <div class="search-container">
+    
+    <mat-form-field appearance="fill" class="search-item">
+      <mat-label>Date From</mat-label>
       
+      <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-      <!-- Guests Selector -->
-      <div class="search-item">
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" class="p-3 border-0">
-          <mat-icon><i class="fas fa-users "></i></mat-icon>
+    
+    <div class="search-item">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+        class="p-3 border-0"
+      >
+      <mat-icon><i class="fas fa-users"></i></mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>dialpad</mat-icon>
+          <span>adult</span>
         </button>
-        <mat-menu #menu="matMenu">
-          <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
-            <span>adult</span>
-          </button>
-          <button mat-menu-item >
-            <mat-icon>voicemail</mat-icon>
-            <span>youth</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon>notifications_off</mat-icon>
-            <span>children</span>
-          </button>
-        </mat-menu>
-        
-       
-        <div>
-          <span class="label">Guests</span>
-          <span class="value">0</span>
-        </div>
+        <button mat-menu-item>
+          <mat-icon>voicemail</mat-icon>
+          <span>youth</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>notifications_off</mat-icon>
+          <span>children</span>
+        </button>
+      </mat-menu>
+
+      <div>
+        <span class="label">Guests</span>
+        <span class="value">0</span>
       </div>
-      <!-- ....................checkbox....................... -->
-     <!-- Trigger button for the menu -->
-<button mat-button [matMenuTriggerFor]="menu2">Menu</button>
-
-<!-- Menu definition -->
-<mat-menu #menu2="matMenu">
-  <mat-card>
-    <mat-card-content>
-      <h2 class="example-h2">Checkbox configuration</h2>
-      
-      <section class="example-section">
-        <mat-checkbox class="example-margin" [(ngModel)]="checked">Checked</mat-checkbox>
-        <mat-checkbox class="example-margin" [(ngModel)]="indeterminate">Indeterminate</mat-checkbox>
-      </section>
-    </mat-card-content>
-  </mat-card>
-</mat-menu>
-
-      
-      
-      
-      <!-- Search Button -->
-      <button class="search-button">
-        <i class="fas fa-search"></i>
-        Search
-      </button>
     </div>
-  </section>
 
+    <div>
+      <button mat-button [matMenuTriggerFor]="menu2">Menu</button>
+      
+      <mat-menu #menu2="matMenu">
+        <mat-card>
+          <mat-card-content>
+            <h2 class="example-h2">Checkbox configuration</h2>
+            
+            <section class="example-section">
+              <mat-checkbox class="example-margin" [(ngModel)]="checked"
+                >Checked</mat-checkbox
+              >
+              <mat-checkbox class="example-margin" [(ngModel)]="indeterminate"
+                >Indeterminate</mat-checkbox
+              >
+            </section>
+          </mat-card-content>
+        </mat-card>
+      </mat-menu>
+    </div>
+  </div>
+  <button class="search-button">
+    <i class="fas fa-search"></i>
+    Search
+  </button>
+</section>
 
+-->
