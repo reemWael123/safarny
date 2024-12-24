@@ -1,0 +1,34 @@
+<header class="header">
+  <div class="header__img">
+    <img [src]="pageHeader?.imgPath" />
+    <h1 class="heading-primary mb-5">{{ pageHeader?.title }}</h1>
+    <p class="header__text">
+      {{ pageHeader?.description }}
+    </p>
+  </div>
+</header>
+
+<main class="main">
+  <ul class="region-cards">
+    <li *ngFor="let item of pageMainList">
+      <figure class="region-card">
+        <img [src]="item.imgPath" />
+        <p>{{ item.title }}</p>
+      </figure>
+    </li>
+  </ul>
+</main>
+
+<footer>
+  <ul class="page-numbers">
+    <li>
+      <a class="selected" href="#">1</a>
+    </li>
+    <li>
+      <a href="#">2</a>
+    </li>
+    <li>
+      <a href="#">&rarr;</a>
+    </li>
+  </ul>
+</footer>
