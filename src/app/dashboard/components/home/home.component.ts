@@ -1,11 +1,16 @@
+
 import { Component } from '@angular/core';
+import { GeneralService } from '../services/general.service';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent {
+ constructor( private _generalservice:GeneralService){}
   categories = [
     { title: 'Sun & Sea', image: '../../../../assets/images/image 34.png' },
     { title: 'Archeological Sites', image: '../../../../assets/image 35.png' },
@@ -17,4 +22,8 @@ export class HomeComponent {
     { title: 'Health & Wellness', image: '../../../../assets/images/image 40.png' },
     { title: 'Arts & Contemporary Culture', image: '../../../../assets/images/image 38.png' },
   ];
+  contain:any
+ 
+ 
+
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GeneralService } from '../../services/general.service';
 
 @Component({
   selector: 'app-cities-page',
@@ -6,28 +7,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./cities-page.component.scss'],
 })
 export class CitiesPageComponent {
+  constructor(private _generalservice: GeneralService) {}
   pageHeader = {
     title: 'Cities',
     description: '',
     imgPath: 'assets/images/city1.png',
   };
-
-  cities = [
-    {
-      title: 'Cairo & Giza',
-      imgPath: 'assets/images/city2.png',
-    },
-    {
-      title: 'Alexandria',
-      imgPath: 'assets/images/city3.png',
-    },
-    {
-      title: 'Aswan',
-      imgPath: 'assets/images/city4.png',
-    },
-    {
-      title: 'Ain Sokhna',
-      imgPath: 'assets/images/city5.png',
-    },
-  ];
+  logRoute(id: number) {
+    console.log("Navigating to:", `/PRH/${id}`);
+  }
+  
+    
+ 
+  cate: any[] = [];
+  ngOnInit() {
+    this._generalservice.cities$.subscribe((data) => {
+      this.cate = data;
+      console.log(this.cate)
+    });
+  }
+  
 }

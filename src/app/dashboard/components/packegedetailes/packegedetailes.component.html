@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="images">
+        <img [src]="place.imageUrl" alt="Tour Image 1">
+       
+    </div>
+    <div class="div back">
+        <div class="details">
+            <h2>{{place.name}}</h2>
+            <p>{{place.description}}</p>
+            <p>Provided by <strong>{{place.companyName}}</strong></p>
+    
+        </div>
+        <div class="info">
+            <div>💰 From ${{place.price}}</div>
+            <div>⏳ Duration: {{place.duration}}</div>
+          
+        </div>
+    </div>
+   
+
+    <!-- <div class="buttons">
+        <button>Share</button>
+        <button>Reviews</button>
+        <button>Wishlist</button>
+    </div> -->
+    <div class="reviews mt-4">
+        <h2>Review Scores</h2>
+        <div class="star-rating">
+            <mat-icon *ngFor="let star of stars"
+                      (click)="setRating(star)"
+                      [ngClass]="{'selected': star <= rating}">
+              {{ star <= rating ? 'star' : 'star_border' }}
+            </mat-icon>
+          </div>
+          
+          <p>Selected Rating: {{ rating }}</p>
+    </div>
+    <textarea placeholder="Write your comment here..."></textarea>
+    <br>
+    <button class="post-comment-btn">POST COMMENT</button>
+    
+</div>

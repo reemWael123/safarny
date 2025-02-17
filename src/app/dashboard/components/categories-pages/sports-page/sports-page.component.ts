@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GeneralService } from '../../services/general.service';
 
 @Component({
   selector: 'app-sports-page',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./sports-page.component.scss'],
 })
 export class SportsPageComponent {
+  constructor(private _generalservice: GeneralService) {}
   pageHeader = {
     title: 'Outdoor Sports',
     description: `Ancient Egypt, a civilization that thrived for over three millennia, 
@@ -15,22 +17,13 @@ contributions to human knowledge.`,
     imgPath: 'assets/images/sport1.png',
   };
 
-  sports = [
-    {
-      title: 'Fayoum',
-      imgPath: 'assets/images/sport2.png',
-    },
-    {
-      title: 'Taba',
-      imgPath: 'assets/images/sport3.png',
-    },
-    {
-      title: 'Nuweiba',
-      imgPath: 'assets/images/sport4.png',
-    },
-    {
-      title: 'Sharm Elshaikh',
-      imgPath: 'assets/images/sport5.png',
-    },
-  ];
+  cate: any[] = [];
+
+  ngOnInit() {
+    this._generalservice.cate$.subscribe((data) => {
+      this.cate = data;
+      console.log(this.cate)
+    });
+  }
+ 
 }
