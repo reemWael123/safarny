@@ -232,3 +232,22 @@
  
 }
 
+// ..................................
+.star-rating {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+}
+
+mat-icon {
+  font-size: 40px; /* تكبير الأيقونة */
+  width: 40px;
+  height: 40px;
+  color: gray;
+  transition: color 0.3s;
+}
+
+
+mat-icon.selected {
+  color: gold;
+}

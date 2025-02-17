@@ -13,6 +13,11 @@ import { CategPageComponent } from './components/categories-pages/categ-page/cat
 import { CitiesPageComponent } from './components/categories-pages/cities-page/cities-page.component';
 import { SportsPageComponent } from './components/categories-pages/sports-page/sports-page.component';
 import { RouterLink, RouterModule } from '@angular/router';
+import { PlacesResturantsHotelsComponent } from './components/places-resturants-hotels/places-resturants-hotels.component';
+import { DetailsComponent } from './components/details/details.component';
+import { PackegesComponent } from './components/packeges/packeges.component';
+import { PackegedetailesComponent } from './components/packegedetailes/packegedetailes.component';
+
 
 @NgModule({
   declarations: [
@@ -25,6 +30,11 @@ import { RouterLink, RouterModule } from '@angular/router';
     CategPageComponent,
     CitiesPageComponent,
     SportsPageComponent,
+    PlacesResturantsHotelsComponent,
+    DetailsComponent,
+    PackegesComponent,
+    PackegedetailesComponent,
+  
   ],
   imports: [
     CommonModule,
@@ -32,6 +42,7 @@ import { RouterLink, RouterModule } from '@angular/router';
     RouterModule,
     DashboardRoutingModule,
     SharedModule,
+ 
   ],
 })
 export class DashboardModule {}

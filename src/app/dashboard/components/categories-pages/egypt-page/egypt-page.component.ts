@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GeneralService } from '../../services/general.service';
 
 @Component({
   selector: 'app-egypt-page',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./egypt-page.component.scss'],
 })
 export class EgyptPageComponent {
+  constructor(private _generalservice: GeneralService) {}
+
   pageHeader = {
     title: 'Ancient Egypt',
     description: `Ancient Egypt, a civilization that thrived for over three millennia,
@@ -15,22 +18,13 @@ export class EgyptPageComponent {
     imgPath: 'assets/images/ancient1.png',
   };
 
-  ancients = [
-    {
-      title: 'Cairo & Giza',
-      imgPath: 'assets/images/ancient2.png',
-    },
-    {
-      title: 'Fayoum',
-      imgPath: 'assets/images/ancient3.png',
-    },
-    {
-      title: 'Luxor',
-      imgPath: 'assets/images/ancient4.png',
-    },
-    {
-      title: 'Aswan',
-      imgPath: 'assets/images/ancient5.png',
-    },
-  ];
+ 
+  cate: any[] = [];
+
+  ngOnInit() {
+    this._generalservice.cate$.subscribe((data) => {
+      this.cate = data;
+      console.log(this.cate)
+    });
+  }
 }

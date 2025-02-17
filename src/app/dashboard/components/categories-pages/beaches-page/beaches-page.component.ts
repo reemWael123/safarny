@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { GeneralService } from '../../services/general.service';
 
 @Component({
   selector: 'app-beaches-page',
@@ -6,6 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./beaches-page.component.scss'],
 })
 export class BeachesPageComponent {
+  
+  
+constructor(private _generalservice: GeneralService) {}
   pageHeader = {
     title: 'Beaches',
     description: `Egypt's beaches are distinguished by their diversity and unique beauty,stretching along the Red Sea and
@@ -14,23 +18,13 @@ export class BeachesPageComponent {
               marine activites.`,
     imgPath: 'assets/images/beach1.png',
   };
+  cate: any[] = [];
 
-  beaches = [
-    {
-      title: 'Alexandria',
-      imgPath: 'assets/images/beach2.png',
-    },
-    {
-      title: 'Dahab',
-      imgPath: 'assets/images/beach3.png',
-    },
-    {
-      title: 'Sharm Elshaikh',
-      imgPath: 'assets/images/beach4.png',
-    },
-    {
-      title: 'Ain Sokhna',
-      imgPath: 'assets/images/beach5.png',
-    },
-  ];
+  ngOnInit() {
+    this._generalservice.cate$.subscribe((data) => {
+      this.cate = data;
+      console.log(this.cate)
+    });
+  }
+ 
 }

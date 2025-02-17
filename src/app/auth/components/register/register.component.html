@@ -9,27 +9,75 @@
         </div>
 
         <h3 class="login-text text-white mt-4">Sign Up</h3>
-        <form>
-          <div class="mb-3">
-            <label for="name" class="form-label text-white">Name</label>
+        <form [formGroup]="regform"  (ngSubmit)="whenregister(regform)">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="first Name" class="form-label text-white">first Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="name"
+                  formControlName="firstName"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="lastName" class="form-label text-white">last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  placeholder="lastName"
+                  formControlName="lastName"
+                />
+              </div>
+            </div>
+          </div>
+         <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="userName" class="form-label text-white">user Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="userName"
+                placeholder="userName"
+                formControlName="userName"
+              />
+            </div></div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <label for="email" class="form-label text-white">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="user@example.com"
+                  formControlName="email"
+                />
+              </div>
+            </div>
+          </div>
+        
+      
+
+         <div class="row">
+          <div class="col-md-6"> 
+             <div class="mb-3">
+            <label for="nationality" class="form-label text-white">nationality</label>
             <input
-              type="text"
+              type="nationality"
               class="form-control"
-              id="name"
-              placeholder="name"
+              id="nationality"
+              placeholder="nationality"
+              formControlName="nationality"
             />
           </div>
-
-          <div class="mb-3">
-            <label for="email" class="form-label text-white">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email"
-              placeholder="user@example.com"
-            />
-          </div>
-
+        </div>
+        <div class="col-md-6">
           <div class="mb-4 position-relative">
             <label for="password" class="form-label text-white">Password</label>
 
@@ -38,6 +86,7 @@
               class="form-control"
               id="password"
               placeholder="Password"
+              formControlName="password"
             />
             <a class="pss-icon" (click)="isHide = !isHide">
               <i
@@ -46,7 +95,30 @@
               ></i
             ></a>
           </div>
+        </div>
+         </div>
+         
+         
+         
 
+          
+          <div class="mb-4 position-relative">
+            <label for="confirmPassword" class="form-label text-white">confirm Password</label>
+
+            <input
+              [type]="isHide ? 'password' : 'text'"
+              class="form-control"
+              id="password"
+              placeholder="confirm Password"
+              formControlName="confirmPassword"
+            />
+            <a class="pss-icon" (click)="isHide = !isHide">
+              <i
+                class="fa-solid"
+                [class]="isHide ? 'fa-eye-slash' : ' fa-eye'"
+              ></i
+            ></a>
+          </div>
           <button type="submit" class="btn btn-color w-100 mb-4">
             Sign Up
           </button>
