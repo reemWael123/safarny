@@ -6,6 +6,7 @@ import { EgyptPageComponent } from './components/categories-pages/egypt-page/egy
 import { BeachesPageComponent } from './components/categories-pages/beaches-page/beaches-page.component';
 import { CitiesPageComponent } from './components/categories-pages/cities-page/cities-page.component';
 import { SportsPageComponent } from './components/categories-pages/sports-page/sports-page.component';
+import { TripSearchComponent } from './components/trip-search/trip-search.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'home/beaches', component: BeachesPageComponent },
       { path: 'home/cities', component: CitiesPageComponent },
       { path: 'home/outdoor-sports', component: SportsPageComponent },
+      { path: 'home/trip-search', component: TripSearchComponent },
     ],
   },
 ];

@@ -1,0 +1,308 @@
+<!-- trip-search.component.html -->
+<header class="header">
+  <div class="header__img">
+    <img src="assets/images/plantrip.png" />
+    <h1 class="heading-primary mb-5">Plan your Trip</h1>
+  </div>
+</header>
+
+<div class="safarny-container">
+  <!-- Hero section with background image -->
+  <!-- <div class="hero-section">
+    <h1>PLAN YOUR TRIP</h1>
+  </div> -->
+
+  <!-- New Places Section -->
+  <!-- Replace the New Places section -->
+  <!-- <section class="new-places">
+    <h2>New Places</h2>
+    <div class="places-grid">
+      <div
+        *ngFor="let place of filteredPlaces | slice : 0 : 4"
+        class="place-card"
+      >
+        <img [src]="place.pictureUrl" [alt]="place.name" />
+        <div class="place-name">{{ place.name }}</div>
+        <div class="place-city">{{ getCityNameById(place.cityId) }}</div>
+        <div class="place-price">From: ${{ place.price }}</div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- Sidebar with filters -->
+    <aside class="filters-sidebar" [formGroup]="searchForm">
+      <!-- Recommendations -->
+      <div class="filter-section">
+        <h3>Destinations</h3>
+        <div class="checkbox-group">
+          <div *ngFor="let city of cities" class="checkbox-item">
+            <input
+              type="checkbox"
+              [id]="'city-' + city.id"
+              [value]="city.name"
+              (change)="updateSelectedCities($event, city.name)"
+            />
+            <label [for]="'city-' + city.id">{{ city.name }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Destinations -->
+      <!-- <div class="filter-section">
+        <h3>Destinations</h3>
+        <div class="checkbox-group">
+          <div
+            *ngFor="let city of cities"
+            class="checkbox-item"
+            [class.selected]="city.name === 'Cairo & Giza'"
+          >
+            <label [for]="'dest-' + city.id" class="city-label">
+              {{ city.name }}
+            </label>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- Replace the Interests section with this -->
+      <div class="filter-section">
+        <h3>Categories</h3>
+        <div class="checkbox-group">
+          <div *ngFor="let category of categories" class="checkbox-item">
+            <input
+              type="checkbox"
+              [id]="'category-' + category.replace(' ', '-')"
+              [value]="category"
+              (change)="updateSelectedCategories($event, category)"
+            />
+            <label [for]="'category-' + category.replace(' ', '-')">{{
+              category
+            }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Price Range -->
+      <div class="filter-section">
+        <h3>price</h3>
+        <div class="price-inputs">
+          <div class="price-field">
+            <label for="min-price">min price</label>
+            <input
+              type="number"
+              id="min-price"
+              formControlName="priceMin"
+              class="price-input"
+            />
+          </div>
+          <div class="price-field">
+            <label for="max-price">max price</label>
+            <input
+              type="number"
+              id="max-price"
+              formControlName="priceMax"
+              class="price-input"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="filter-section">
+        <h3>Rating</h3>
+        <div class="rating-options">
+          <div class="rating-option">
+            <input
+              type="radio"
+              id="rating-3"
+              name="rating"
+              [value]="3"
+              (change)="updateRating(3)"
+              [checked]="searchForm.get('rating')?.value === 3"
+            />
+            <label for="rating-3">+3</label>
+          </div>
+          <div class="rating-option">
+            <input
+              type="radio"
+              id="rating-35"
+              name="rating"
+              [value]="3.5"
+              (change)="updateRating(3.5)"
+              [checked]="searchForm.get('rating')?.value === 3.5"
+            />
+            <label for="rating-35">+3.5</label>
+          </div>
+          <div class="rating-option">
+            <input
+              type="radio"
+              id="rating-4"
+              name="rating"
+              [value]="4"
+              (change)="updateRating(4)"
+              [checked]="searchForm.get('rating')?.value === 4"
+            />
+            <label for="rating-4">+4</label>
+          </div>
+          <div class="rating-option">
+            <input
+              type="radio"
+              id="rating-45"
+              name="rating"
+              [value]="4.5"
+              (change)="updateRating(4.5)"
+              [checked]="searchForm.get('rating')?.value === 4.5"
+            />
+            <label for="rating-45">+4.5</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- End of trip -->
+      <div class="filter-section">
+        <h3>End of trip at</h3>
+        <div class="checkbox-group">
+          <div *ngFor="let city of cities" class="checkbox-item">
+            <input
+              type="checkbox"
+              [id]="'end-' + city.id"
+              [value]="city.name"
+              (change)="updateSelectedCities($event, city.name)"
+            />
+            <label [for]="'end-' + city.id">{{ city.name }}</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="filter-actions">
+        <button class="btn btn-primary" (click)="filterResults()">
+          FIND TRIPS
+        </button>
+        <button class="btn btn-secondary" (click)="resetFilters()">
+          VIEW YOUR TRIPS
+        </button>
+        <!-- Add new Clear Filters button -->
+        <button class="btn btn-outline-secondary" (click)="clearAllFilters()">
+          CLEAR FILTERS
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content area -->
+    <main class="content-area">
+      <!-- Replace your existing activities section with this -->
+      <section class="activities-section">
+        <h2>Activities To Do</h2>
+
+        <div class="cards-grid">
+          <div *ngFor="let place of paginatedPlaces" class="card">
+            <div class="card-image">
+              <img [src]="place.pictureUrl" [alt]="place.name" />
+              <button class="favorite-btn">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="card-content">
+              <h4>{{ place.name }}</h4>
+              <div class="location">{{ getCityNameById(place.cityId) }}</div>
+              <div class="price">From: ${{ place.price }} per person</div>
+              <button class="add-to-cart" (click)="addToCart(place)">
+                Add To Your Cart <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Update your existing activities section pagination controls -->
+        <div class="pagination" *ngIf="filteredPlaces.length > itemsPerPage">
+          <button
+            class="page-btn prev"
+            (click)="changePage(currentActivityPage - 1, 'activity')"
+            [disabled]="currentActivityPage === 1"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+
+          <button
+            *ngFor="let page of getPageNumbers('activity')"
+            class="page-btn"
+            [class.active]="currentActivityPage === page"
+            (click)="changePage(page, 'activity')"
+          >
+            {{ page }}
+          </button>
+
+          <button
+            class="page-btn next"
+            (click)="changePage(currentActivityPage + 1, 'activity')"
+            [disabled]="currentActivityPage === totalActivityPages"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </section>
+
+      <!-- Replace your existing hotels section with this -->
+      <section class="hotels-section">
+        <h2>Hotels To Stay In</h2>
+
+        <div class="cards-grid">
+          <div *ngFor="let hotel of paginatedHotels" class="card">
+            <div class="card-image">
+              <img [src]="hotel.image" [alt]="hotel.name" />
+              <button class="favorite-btn">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="card-content">
+              <h4>{{ hotel.name }}</h4>
+              <div class="location">{{ hotel.city }}</div>
+              <div class="price">
+                From: ${{ hotel.pricePerNight }} per person/night
+              </div>
+              <div class="rating">Rating: {{ hotel.rating }}</div>
+              <button class="book-now-btn">
+                Book from here <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination controls for hotels -->
+        <div class="pagination" *ngIf="filteredHotels.length > itemsPerPage">
+          <button
+            class="page-btn prev"
+            (click)="changePage(currentHotelPage - 1, 'hotel')"
+            [disabled]="currentHotelPage === 1"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+
+          <button
+            *ngFor="let page of getPageNumbers('hotel')"
+            class="page-btn"
+            [class.active]="currentHotelPage === page"
+            (click)="changePage(page, 'hotel')"
+          >
+            {{ page }}
+          </button>
+
+          <button
+            class="page-btn next"
+            (click)="changePage(currentHotelPage + 1, 'hotel')"
+            [disabled]="currentHotelPage === totalHotelPages"
+          >
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <!-- No results message -->
+        <div *ngIf="filteredHotels.length === 0" class="no-results">
+          No hotels found matching your criteria
+        </div>
+      </section>
+    </main>
+  </div>
+</div>

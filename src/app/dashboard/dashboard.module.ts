@@ -14,6 +14,8 @@ import { CitiesPageComponent } from './components/categories-pages/cities-page/c
 import { SportsPageComponent } from './components/categories-pages/sports-page/sports-page.component';
 import { RouterLink, RouterModule } from '@angular/router';
 
+import { TripSearchComponent } from './components/trip-search/trip-search.component';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -25,6 +27,8 @@ import { RouterLink, RouterModule } from '@angular/router';
     CategPageComponent,
     CitiesPageComponent,
     SportsPageComponent,
+
+    TripSearchComponent,
   ],
   imports: [
     CommonModule,
