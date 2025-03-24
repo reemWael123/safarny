@@ -10,6 +10,7 @@ import { PlacesResturantsHotelsComponent } from './components/places-resturants-
 import { DetailsComponent } from './components/details/details.component';
 import { PackegesComponent } from './components/packeges/packeges.component';
 import { PackegedetailesComponent } from './components/packegedetailes/packegedetailes.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
     path: '', component: DashboardComponent,
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
+     
       { path: 'home', component: HomeComponent },
       { path: 'home/ancient-egypt', component: EgyptPageComponent },
       { path: 'home/beaches', component: BeachesPageComponent },

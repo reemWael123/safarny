@@ -30,6 +30,9 @@
     border: 1px solid #b38c55; /* لون الإطار */
 }
 
+.main{
+    background-color:#b38c55 ;
+}
 .nav-item {
     color: #b38c55; /* اللون الذهبي */
     font-weight: bold;
@@ -43,4 +46,14 @@
 .nav-bar a:hover{
     background-color: #b38c55; /* لون التحديد */
     color: white;
+}
+ .hello .card {
+  width: 50%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form-check {
+    margin-bottom: 10px;
 }

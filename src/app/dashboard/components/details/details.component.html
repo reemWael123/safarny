@@ -1,10 +1,31 @@
+<div>
+    <img [src]="placedetails.pictureUrl" class="header-img">
+    <h1 class="position-absolute top-50 font  text-white shadow-lg ">{{placedetails.name}}</h1>
+    <!-- <p class="position-absolute top-5 font2  text-white ">{{placedetails.description}}</p> -->
+</div>
 <div class="container mt-5">
-    <div class="card custom-card shadow-lg">
-        <img [src]="place.pictureUrl" class="card-img-top custom-img" alt="ttt">
-        <div class="card-body text-center">
-            <h2 class="card-title fw-bold text-uppercase">{{ place.name }}</h2>
-            <p class="card-text text-muted">{{ place.description }}</p>
-            
+    <h2>Activities you can't miss:</h2>
+    <div class="row g-4" >
+        <div class="col-md-3"  *ngFor="let item of place ">
+            <a class="card custom-card" >
+                <img class="card-img-top custom-img" [src]="item.pictureUrl" alt="Card image">
+                <div class="card-body">
+                  <h5 class="card-title">{{item.name}}</h5>
+                
+                </div>
+            </a>
+        </div>
+    </div>
+    <h2>Nearby  Resturants :</h2>
+    <div class="row g-4" >
+        <div class="col-md-3"  *ngFor="let item of resturants ">
+            <a class="card custom-card" >
+                <img class="card-img-top custom-img" [src]="item.pictureUrl" alt="Card image">
+                <div class="card-body">
+                  <h5 class="card-title">{{item.name}}</h5>
+                
+                </div>
+            </a>
         </div>
     </div>
 </div>

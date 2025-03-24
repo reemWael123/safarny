@@ -17,7 +17,16 @@ import { PlacesResturantsHotelsComponent } from './components/places-resturants-
 import { DetailsComponent } from './components/details/details.component';
 import { PackegesComponent } from './components/packeges/packeges.component';
 import { PackegedetailesComponent } from './components/packegedetailes/packegedetailes.component';
-
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { StteperComponent } from './components/stteper/stteper.component';
+import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -34,6 +43,8 @@ import { PackegedetailesComponent } from './components/packegedetailes/packegede
     DetailsComponent,
     PackegesComponent,
     PackegedetailesComponent,
+    WelcomeComponent,
+    StteperComponent,
   
   ],
   imports: [
@@ -42,6 +53,14 @@ import { PackegedetailesComponent } from './components/packegedetailes/packegede
     RouterModule,
     DashboardRoutingModule,
     SharedModule,
+    MatExpansionModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
  
   ],
 })
