@@ -1,0 +1,55 @@
+
+<div class="header" *ngIf="pageId==1">
+   <img src="../../../../assets/images/cairo.png" class="header-img">
+   <h1 class="position-absolute top-50 font  text-white ">Cairo & Giza</h1>
+</div>
+
+<div class="header" *ngIf="pageId==2">
+    <img src="../../../../assets/images/alex.png" class="header-img">
+    <h1 class="position-absolute top-50 font  text-white text-center ">Alexandria</h1>
+ </div>
+ 
+<div class="header" *ngIf="pageId==3">
+    <img src="../../../../assets/images/lux.png" class="header-img">
+    <h1 class="position-absolute top-50 font  text-white ">Luxor</h1>
+ </div>
+ 
+<div class="header" *ngIf="pageId==4">
+    <img src="../../../../assets/images/aswan.png" class="header-img">
+    <h1 class="position-absolute top-50 font  text-white ">Aswan</h1>
+ </div>
+<div class="nav-bar m-3">
+    <a  class="nav-item" routerLinkActive="active">Hotels</a>
+    <a  class="nav-item "  routerLinkActive="active" (click)="getallresturants(pageId)">Restaurants</a>
+    <a class="nav-item"  routerLinkActive="active" (click)="getallplaces(pageId)">Places</a>
+</div>
+
+<div class="container">
+    <div class="row" *ngIf="places" >
+        <div class="col-md-4"  *ngFor="let item of places ">
+            <a class="card custom-card" [routerLink]="['/dashboard/home/details', item.id]">
+                <img class="card-img-top custom-img" [src]="item.pictureUrl" alt="Card image">
+                <div class="card-body">
+                  <h5 class="card-title">{{item.name}}</h5>
+                  <a [routerLink]="['/PRH', item.id]" class="btn btn-primary">Read more</a>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row" *ngIf="resturant" >
+        <div class="col-md-4"  *ngFor="let item of resturant ">
+            <div class="card custom-card">
+                <img class="card-img-top custom-img" [src]="item.pictureUrl" alt="Card image">
+                <div class="card-body">
+                  <h5 class="card-title">{{item.name}}</h5>
+                  <a [routerLink]="['/PRH', item.id]" class="btn btn-primary">Read more</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

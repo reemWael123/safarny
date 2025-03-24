@@ -7,24 +7,33 @@ import { BeachesPageComponent } from './components/categories-pages/beaches-page
 import { CitiesPageComponent } from './components/categories-pages/cities-page/cities-page.component';
 import { SportsPageComponent } from './components/categories-pages/sports-page/sports-page.component';
 import { TripSearchComponent } from './components/trip-search/trip-search.component';
+import { PlacesResturantsHotelsComponent } from './components/places-resturants-hotels/places-resturants-hotels.component';
+import { DetailsComponent } from './components/details/details.component';
+import { PackegesComponent } from './components/packeges/packeges.component';
+import { PackegedetailesComponent } from './components/packegedetailes/packegedetailes.component';
+import { ViewTripsComponent } from './components/view-trips/view-trips.component';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     children: [
-      {
-        path: 'home',
-        component: HomeComponent,
-        // children: [{ path: 'ancient', component: EgyptPageComponent }],
-      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: 'home', component: HomeComponent },
       { path: 'home/ancient-egypt', component: EgyptPageComponent },
       { path: 'home/beaches', component: BeachesPageComponent },
       { path: 'home/cities', component: CitiesPageComponent },
+      { path: 'home/PRH/:id', component: PlacesResturantsHotelsComponent },
       { path: 'home/outdoor-sports', component: SportsPageComponent },
       { path: 'home/trip-search', component: TripSearchComponent },
+      { path: 'home/view-trips', component: ViewTripsComponent },
+
+      { path: 'home/details/:id', component: DetailsComponent },
+      { path: 'home/packeges', component: PackegesComponent },
+      { path: 'home/packegesdetails/:id', component: PackegedetailesComponent },
     ],
   },
+  // ✅ يجب أن يكون خارج `children`
 ];
 
 @NgModule({

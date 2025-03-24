@@ -10,13 +10,17 @@
         <h2 class="headeing-secondary mb-5">
           Book Your Trip Now and Discover The Treasure of History and Beauty!
         </h2>
-        <app-search-home />
+      <app-search-home></app-search-home>
       </div>
     </div>
 
     <div class="categories">
+      
       <a routerLink="ancient-egypt" class="categ-link">
+      
+       
         <figure>
+          
           <span>
             <!-- <svg class="icon">
               <use xlink:href="assets/icons/pyramids-egypt.svg#"></use>
@@ -252,7 +256,7 @@
               </g>
             </svg>
           </span>
-          <span class="text">Ancient Egypt</span>
+          <span class="text" (click)="getcategory('Ancient')">Ancient Egypt</span>
         </figure>
       </a>
 
@@ -322,11 +326,11 @@
               </g>
             </svg>
           </span>
-          <span class="text">Beaches</span>
+          <span class="text"  (click)="getcategory('Beaches')">Beaches</span>
         </figure></a
       >
 
-      <a routerLink="cities" class="categ-link"
+      <a routerLink="cities"  class="categ-link"
         ><figure>
           <span>
             <svg
@@ -343,7 +347,7 @@
               </g>
             </svg>
           </span>
-          <span class="text">Cities</span>
+          <span class="text" (click)="getcity()">Cities</span>
         </figure></a
       >
 
@@ -382,7 +386,7 @@
               />
             </svg>
           </span>
-          <span class="text">Sports</span>
+          <span class="text"  (click)="getcategory('Sports')" >Sports</span>
         </figure></a
       >
     </div>

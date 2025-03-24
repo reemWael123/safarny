@@ -9,7 +9,7 @@
         </div>
 
         <h3 class="login-text text-white mt-4">Login</h3>
-        <form>
+        <form [formGroup]="loginform" (ngSubmit)="whenlogin(loginform)">
           <div class="mb-3">
             <label for="email" class="form-label text-white">Email</label>
             <input
@@ -17,6 +17,7 @@
               class="form-control"
               id="email"
               placeholder="user@example.com"
+              formControlName="email"
             />
           </div>
 
@@ -28,6 +29,7 @@
               class="form-control"
               id="password"
               placeholder="Password"
+              formControlName="password"
             />
             <a class="pss-icon" (click)="isHide = !isHide">
               <i

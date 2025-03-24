@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 interface Place {
+  id: number;
   name: string;
   description: string;
   pictureUrl: string;
@@ -78,6 +79,7 @@ interface TripSearchResponse {
 }
 
 interface TouristPlace {
+  id: number;
   name: string;
   description: string;
   pictureUrl: string;
@@ -174,6 +176,32 @@ export class TripSearchService {
           });
         })
       );
+  }
+
+  // Get user's trips
+  getUserTrips(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiBaseUrl}/view-trips/${userId}`).pipe(
+      catchError((error) => {
+        console.error('Error fetching user trips:', error);
+        return of([]);
+      })
+    );
+  }
+
+  getTripIdByPlaceId(placeId: number, userId: string): Observable<string> {
+    // This is a placeholder - you might need to first get all trips and then find the one containing the place
+    return this.getUserTrips(userId).pipe(
+      map((trips) => {
+        const trip = trips.find((t) =>
+          t.touristPlaces.some((place: any) => place.id === placeId)
+        );
+
+        if (trip) {
+          return trip.tripId.toString();
+        }
+        throw new Error('Trip not found for this place');
+      })
+    );
   }
 
   searchTrips(filters: SearchFilters): Observable<SearchResult> {

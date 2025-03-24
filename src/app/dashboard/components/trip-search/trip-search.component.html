@@ -7,33 +7,10 @@
 </header>
 
 <div class="safarny-container">
-  <!-- Hero section with background image -->
-  <!-- <div class="hero-section">
-    <h1>PLAN YOUR TRIP</h1>
-  </div> -->
-
-  <!-- New Places Section -->
-  <!-- Replace the New Places section -->
-  <!-- <section class="new-places">
-    <h2>New Places</h2>
-    <div class="places-grid">
-      <div
-        *ngFor="let place of filteredPlaces | slice : 0 : 4"
-        class="place-card"
-      >
-        <img [src]="place.pictureUrl" [alt]="place.name" />
-        <div class="place-name">{{ place.name }}</div>
-        <div class="place-city">{{ getCityNameById(place.cityId) }}</div>
-        <div class="place-price">From: ${{ place.price }}</div>
-      </div>
-    </div>
-  </section> -->
-
-  <!-- Main content -->
   <div class="main-content">
     <!-- Sidebar with filters -->
     <aside class="filters-sidebar" [formGroup]="searchForm">
-      <!-- Recommendations -->
+      <!-- Destinations -->
       <div class="filter-section">
         <h3>Destinations</h3>
         <div class="checkbox-group">
@@ -49,23 +26,7 @@
         </div>
       </div>
 
-      <!-- Destinations -->
-      <!-- <div class="filter-section">
-        <h3>Destinations</h3>
-        <div class="checkbox-group">
-          <div
-            *ngFor="let city of cities"
-            class="checkbox-item"
-            [class.selected]="city.name === 'Cairo & Giza'"
-          >
-            <label [for]="'dest-' + city.id" class="city-label">
-              {{ city.name }}
-            </label>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- Replace the Interests section with this -->
+      <!-- Categories -->
       <div class="filter-section">
         <h3>Categories</h3>
         <div class="checkbox-group">
@@ -85,10 +46,10 @@
 
       <!-- Price Range -->
       <div class="filter-section">
-        <h3>price</h3>
+        <h3>Price</h3>
         <div class="price-inputs">
           <div class="price-field">
-            <label for="min-price">min price</label>
+            <label for="min-price">Min price</label>
             <input
               type="number"
               id="min-price"
@@ -97,12 +58,37 @@
             />
           </div>
           <div class="price-field">
-            <label for="max-price">max price</label>
+            <label for="max-price">Max price</label>
             <input
               type="number"
               id="max-price"
               formControlName="priceMax"
               class="price-input"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Trip Dates -->
+      <div class="filter-section">
+        <h3>Trip Dates</h3>
+        <div class="date-inputs">
+          <div class="date-field">
+            <label for="start-date">Start Date</label>
+            <input
+              type="date"
+              id="start-date"
+              formControlName="startDate"
+              class="date-input"
+            />
+          </div>
+          <div class="date-field">
+            <label for="end-date">End Date</label>
+            <input
+              type="date"
+              id="end-date"
+              formControlName="endDate"
+              class="date-input"
             />
           </div>
         </div>
@@ -169,6 +155,7 @@
               [id]="'end-' + city.id"
               [value]="city.name"
               (change)="updateSelectedCities($event, city.name)"
+              [checked]="searchForm.get('endCity')?.value === city.name"
             />
             <label [for]="'end-' + city.id">{{ city.name }}</label>
           </div>
@@ -180,10 +167,11 @@
         <button class="btn btn-primary" (click)="filterResults()">
           FIND TRIPS
         </button>
-        <button class="btn btn-secondary" (click)="resetFilters()">
+
+        <button routerLink="../view-trips" class="btn btn-secondary">
           VIEW YOUR TRIPS
         </button>
-        <!-- Add new Clear Filters button -->
+
         <button class="btn btn-outline-secondary" (click)="clearAllFilters()">
           CLEAR FILTERS
         </button>
@@ -192,7 +180,7 @@
 
     <!-- Main content area -->
     <main class="content-area">
-      <!-- Replace your existing activities section with this -->
+      <!-- Activities section -->
       <section class="activities-section">
         <h2>Activities To Do</h2>
 
@@ -209,13 +197,18 @@
               <div class="location">{{ getCityNameById(place.cityId) }}</div>
               <div class="price">From: ${{ place.price }} per person</div>
               <button class="add-to-cart" (click)="addToCart(place)">
-                Add To Your Cart <i class="fas fa-arrow-right"></i>
+                <span *ngIf="!isInCart(place)"
+                  >Add To Your Cart <i class="fas fa-arrow-right"></i
+                ></span>
+                <span *ngIf="isInCart(place)"
+                  >Remove From Cart <i class="fas fa-times"></i
+                ></span>
               </button>
             </div>
           </div>
         </div>
 
-        <!-- Update your existing activities section pagination controls -->
+        <!-- Pagination controls for activities -->
         <div class="pagination" *ngIf="filteredPlaces.length > itemsPerPage">
           <button
             class="page-btn prev"
@@ -242,14 +235,23 @@
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>
+
+        <!-- No results message -->
+        <div *ngIf="filteredPlaces.length === 0" class="no-results">
+          No activities found matching your criteria
+        </div>
       </section>
 
-      <!-- Replace your existing hotels section with this -->
+      <!-- Hotels section -->
       <section class="hotels-section">
         <h2>Hotels To Stay In</h2>
 
         <div class="cards-grid">
-          <div *ngFor="let hotel of paginatedHotels" class="card">
+          <div
+            *ngFor="let hotel of paginatedHotels"
+            class="card"
+            [class.selected]="searchForm.get('hotelId')?.value === hotel.id"
+          >
             <div class="card-image">
               <img [src]="hotel.image" [alt]="hotel.name" />
               <button class="favorite-btn">
@@ -263,8 +265,13 @@
                 From: ${{ hotel.pricePerNight }} per person/night
               </div>
               <div class="rating">Rating: {{ hotel.rating }}</div>
-              <button class="book-now-btn">
-                Book from here <i class="fas fa-arrow-right"></i>
+              <button class="book-now-btn" (click)="selectHotel(hotel)">
+                {{
+                  searchForm.get("hotelId")?.value === hotel.id
+                    ? "Selected for Trip"
+                    : "Select for Trip"
+                }}
+                <i class="fas fa-arrow-right"></i>
               </button>
             </div>
           </div>

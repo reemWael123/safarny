@@ -13,8 +13,13 @@ import { CategPageComponent } from './components/categories-pages/categ-page/cat
 import { CitiesPageComponent } from './components/categories-pages/cities-page/cities-page.component';
 import { SportsPageComponent } from './components/categories-pages/sports-page/sports-page.component';
 import { RouterLink, RouterModule } from '@angular/router';
+import { PlacesResturantsHotelsComponent } from './components/places-resturants-hotels/places-resturants-hotels.component';
+import { DetailsComponent } from './components/details/details.component';
+import { PackegesComponent } from './components/packeges/packeges.component';
+import { PackegedetailesComponent } from './components/packegedetailes/packegedetailes.component';
 
 import { TripSearchComponent } from './components/trip-search/trip-search.component';
+import { ViewTripsComponent } from './components/view-trips/view-trips.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +34,11 @@ import { TripSearchComponent } from './components/trip-search/trip-search.compon
     SportsPageComponent,
 
     TripSearchComponent,
+    PlacesResturantsHotelsComponent,
+    DetailsComponent,
+    PackegesComponent,
+    PackegedetailesComponent,
+    ViewTripsComponent,
   ],
   imports: [
     CommonModule,
