@@ -13,6 +13,13 @@ constructor(private _ActivatedRoute:ActivatedRoute ,private _generalservice:Gene
   this.pageId=this._ActivatedRoute.snapshot.params['id']
 
 }
+diningOptions: string = ''; 
+rate: number = 0; 
+type: string = ''; // لتخزين اختيار الـ Type
+priceRange: string = ''; // لتخزين اختيار Price Range
+mealTime: string = ''; // لتخزين Meal Time
+
+yess: boolean = false; 
 places:any
 resturant:any
 getallplaces(id:number){
@@ -41,5 +48,21 @@ getallplaces(id:number){
       }
     });
   }
+
+
+  fillter(){
+  
+    this._generalservice.filter(this.type ,this.mealTime).subscribe({
+      next: (response) => {
+     
+ 
+        console.log(response);
+      },
+      error: (err) => {
+        console.error("Error:", err);
+      }
+    });
+  }
+
 }
 

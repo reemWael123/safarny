@@ -37,3 +37,16 @@
 .btn-primary:hover {
     background: #b99630;
 }
+.header-img {
+    width: 100%; /* يجعل الصورة تمتد بكامل العرض */
+    height: 600px; /* تحديد ارتفاع مناسب */
+    object-fit: cover; /* يمنع التشوه ويجعل الصورة تغطي العنصر بالكامل */
+}
+.font{
+    font-size: 70px;
+    left:30%;
+}
+.font2{
+ 
+    left:30%;
+}

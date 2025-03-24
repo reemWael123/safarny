@@ -1,0 +1,87 @@
+<section class="stepper  ">
+    .
+    <div class="card rounded-4 my-4 w-75 m-auto  ">
+         <mat-stepper> 
+            <mat-step label="Step 1" state="chat">
+                <div class="text-center mt-2"> 
+                    <img src="../../../../assets/images/Frame 2.png">
+                </div>
+                <div class="checkbox-container my-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label class="checkbox-label">
+                            <input type="radio" name="category" [(ngModel)]="selectedCategory" value="Historical"> Historical
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="radio" name="category" [(ngModel)]="selectedCategory" value="Adventure"> Adventure
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="radio" name="category" [(ngModel)]="selectedCategory" value="Custom"> Custom
+                        </label>
+                        
+                        </div>
+                        <div class="col-md-4">
+                          <label class="checkbox-label">
+                            <input type="radio" name="category" [(ngModel)]="selectedCategory" value="Luxury"> Luxury
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="radio" name="category" [(ngModel)]="selectedCategory" value="General"> General
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="radio" name="category" [(ngModel)]="selectedCategory" value="Cruise"> Cruise
+                        </label>
+                        
+                        </div>
+                       
+                    </div>
+                    
+                   
+                    
+                  
+                </div>
+                <div>
+                  
+                  <button mat-button matStepperNext >Next</button>
+                </div>
+              </mat-step>
+      
+            
+            <mat-step label="Step 2" state="chat">
+                <div class=" m-2"> 
+                    <img src="../../../../assets/images/How long do you plan to stay in Egypt_.png">
+                    
+                </div>
+                <input  type="number" class="w-75 rounded  " [(ngModel)]="duration"  [min]="1" [max]="10">
+                <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperNext>Next</button>
+                </div>
+              </mat-step>
+              <mat-step label="Step 3" state="chat">
+                <div class=" mt-2"> 
+                    <img src="../../../../assets/images/What is your budget for the trip_.png">
+                    
+                </div>
+                <div class="range-container  w-50 m-5  ">
+                </div>
+                <input  type="number" class="w-75 rounded  " [(ngModel)]="rangeValue"  [min]="100" [max]="2000">
+                <div>
+                </div>
+                
+                <div>
+                  <button mat-button matStepperPrevious>Back</button>
+                  <button mat-button matStepperPrevious (click)="submitSelection()">finsh</button>
+                </div>
+              </mat-step>
+           
+            Icon overrides.
+            <ng-template matStepperIcon="phone">
+              <mat-icon>call_end</mat-icon>
+            </ng-template>
+            <ng-template matStepperIcon="chat">
+              <mat-icon>forum</mat-icon>
+            </ng-template>
+          </mat-stepper> 
+    </div>
+  
+</section>

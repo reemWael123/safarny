@@ -41,7 +41,7 @@ export class LoginComponent {
        complete:()=> {
         console.log('completed')
          this._ToastrService.success("success")
-         this._router.navigate(['/dashboard/home'])
+         this._router.navigate(['/welcome'])
        },
      
      })
