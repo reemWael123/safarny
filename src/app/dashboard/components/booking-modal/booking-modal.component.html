@@ -1,0 +1,196 @@
+<!-- booking-modal.component.html -->
+<div class="modal-backdrop" (click)="closeModal()"></div>
+<div class="modal-container">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Book {{ roomType }}</h2>
+      <button type="button" class="close-btn" (click)="closeModal()">
+        &times;
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="room-summary">
+        <div class="summary-item">
+          <span class="label">Room Type:</span>
+          <span class="value">{{ roomType }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Capacity:</span>
+          <span class="value">Up to {{ maxCapacity }} guests</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Price:</span>
+          <span class="value">${{ pricePerNight }} per night</span>
+        </div>
+      </div>
+
+      <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="username">Full Name</label>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              [ngClass]="{
+                invalid:
+                  bookingForm.get('username')?.invalid &&
+                  bookingForm.get('username')?.touched
+              }"
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                bookingForm.get('username')?.invalid &&
+                bookingForm.get('username')?.touched
+              "
+            >
+              Full name is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              [ngClass]="{
+                invalid:
+                  bookingForm.get('email')?.invalid &&
+                  bookingForm.get('email')?.touched
+              }"
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                bookingForm.get('email')?.invalid &&
+                bookingForm.get('email')?.touched
+              "
+            >
+              <span *ngIf="bookingForm.get('email')?.errors?.['required']"
+                >Email is required</span
+              >
+              <span *ngIf="bookingForm.get('email')?.errors?.['email']"
+                >Please enter a valid email</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="checkInDate">Check-in Date</label>
+            <input
+              type="date"
+              id="checkInDate"
+              formControlName="checkInDate"
+              [min]="minDate"
+              [max]="maxDate"
+              (change)="onCheckInDateChange()"
+              [ngClass]="{
+                invalid:
+                  bookingForm.get('checkInDate')?.invalid &&
+                  bookingForm.get('checkInDate')?.touched
+              }"
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                bookingForm.get('checkInDate')?.invalid &&
+                bookingForm.get('checkInDate')?.touched
+              "
+            >
+              Valid check-in date is required
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="checkOutDate">Check-out Date</label>
+            <input
+              type="date"
+              id="checkOutDate"
+              formControlName="checkOutDate"
+              [min]="bookingForm.value.checkInDate"
+              [max]="maxDate"
+              [ngClass]="{
+                invalid:
+                  bookingForm.get('checkOutDate')?.invalid &&
+                  bookingForm.get('checkOutDate')?.touched
+              }"
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                bookingForm.get('checkOutDate')?.invalid &&
+                bookingForm.get('checkOutDate')?.touched
+              "
+            >
+              Valid check-out date is required
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="numberOfPersons">Number of Guests</label>
+            <input
+              type="number"
+              id="numberOfPersons"
+              formControlName="numberOfPersons"
+              min="1"
+              [max]="maxCapacity"
+              [ngClass]="{
+                invalid:
+                  bookingForm.get('numberOfPersons')?.invalid &&
+                  bookingForm.get('numberOfPersons')?.touched
+              }"
+            />
+            <div
+              class="error-message"
+              *ngIf="
+                bookingForm.get('numberOfPersons')?.invalid &&
+                bookingForm.get('numberOfPersons')?.touched
+              "
+            >
+              <span
+                *ngIf="bookingForm.get('numberOfPersons')?.errors?.['required']"
+                >Number of guests is required</span
+              >
+              <span *ngIf="bookingForm.get('numberOfPersons')?.errors?.['min']"
+                >At least 1 guest is required</span
+              >
+              <span *ngIf="bookingForm.get('numberOfPersons')?.errors?.['max']"
+                >Maximum {{ maxCapacity }} guests allowed</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <div class="booking-summary">
+          <div class="summary-row">
+            <span>Total Price:</span>
+            <span class="total-price">${{ calculateTotalPrice() }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="form-error">
+          {{ errorMessage }}
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="closeModal()">
+            Cancel
+          </button>
+          <button type="submit" class="submit-btn" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Confirm Booking</span>
+            <span *ngIf="isSubmitting">Processing...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

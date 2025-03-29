@@ -1,0 +1,15 @@
+<div class="card">
+  <div class="card-image">
+    <img [src]="trip.pictureUrl" [alt]="trip.name" />
+    <button class="favorite">&#9825;</button>
+  </div>
+  <div class="card-content">
+    <h3>
+      {{ trip.name }} <span class="location">{{ trip.city }}</span>
+    </h3>
+    <p class="price">
+      From <span>${{ trip.price }}</span> per person
+    </p>
+    <button class="add-card">Add To Your Card <span>+</span></button>
+  </div>
+</div>

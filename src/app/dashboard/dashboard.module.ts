@@ -17,16 +17,25 @@ import { PlacesResturantsHotelsComponent } from './components/places-resturants-
 import { DetailsComponent } from './components/details/details.component';
 import { PackegesComponent } from './components/packeges/packeges.component';
 import { PackegedetailesComponent } from './components/packegedetailes/packegedetailes.component';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { StteperComponent } from './components/stteper/stteper.component';
-import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { TripSearchComponent } from './components/trip-search/trip-search.component';
+import { ViewTripsComponent } from './components/view-trips/view-trips.component';
+import { HotelRoomsComponent } from './components/hotel-rooms/hotel-rooms.component';
+import { BookingModalComponent } from './components/booking-modal/booking-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +54,10 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     PackegedetailesComponent,
     WelcomeComponent,
     StteperComponent,
-  
+    TripSearchComponent,
+    ViewTripsComponent,
+    HotelRoomsComponent,
+    BookingModalComponent,
   ],
   imports: [
     CommonModule,
@@ -61,7 +73,6 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
- 
   ],
 })
 export class DashboardModule {}

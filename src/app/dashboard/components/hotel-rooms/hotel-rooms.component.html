@@ -1,0 +1,78 @@
+<!-- hotel-rooms.component.html -->
+<div class="hotel-rooms-container">
+  <h2>Available Rooms</h2>
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading rooms...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="bookingSuccess" class="success-message">
+    <i class="fa fa-check-circle"></i>
+    <span>Booking successful! A confirmation has been sent to your email.</span>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage" class="rooms-grid">
+    <div
+      *ngFor="let room of rooms"
+      class="room-card"
+      [ngClass]="{ unavailable: !room.isAvailable }"
+    >
+      <div class="room-header">
+        <h3>{{ room.roomType }}</h3>
+        <span class="room-id">Room #{{ room.roomId }}</span>
+      </div>
+
+      <div class="room-details">
+        <div class="detail-item">
+          <i class="fa fa-users"></i>
+          <span>{{ getCapacityText(room.capacity) }}</span>
+        </div>
+
+        <div class="detail-item price">
+          <span class="amount">${{ room.pricePerNight }}</span>
+          <span class="period">per night</span>
+        </div>
+      </div>
+
+      <div class="room-footer">
+        <span
+          class="availability-badge"
+          [ngClass]="{ available: room.isAvailable }"
+        >
+          {{ room.isAvailable ? "Available" : "Unavailable" }}
+        </span>
+        <button
+          *ngIf="room.isAvailable"
+          class="book-btn"
+          (click)="openBookingModal(room)"
+        >
+          Book Now
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!isLoading && !errorMessage && rooms.length === 0"
+    class="no-rooms"
+  >
+    No rooms available at this time.
+  </div>
+
+  <!-- Booking Modal -->
+  <app-booking-modal
+    *ngIf="showBookingModal && selectedRoom"
+    [hotelId]="selectedRoom.hotelId"
+    [roomId]="selectedRoom.roomId"
+    [roomType]="selectedRoom.roomType"
+    [maxCapacity]="selectedRoom.capacity"
+    [pricePerNight]="selectedRoom.pricePerNight"
+    (close)="closeBookingModal()"
+    (bookingComplete)="onBookingComplete($event)"
+  ></app-booking-modal>
+</div>

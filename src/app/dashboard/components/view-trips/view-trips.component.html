@@ -1,0 +1,114 @@
+<div class="safarny-container">
+  <header class="header">
+    <div class="header__img">
+      <!-- <img src="assets/images/yourtrips.png" /> -->
+      <h1 class="heading-primary mb-5">Your Trips</h1>
+    </div>
+  </header>
+
+  <div class="trips-container">
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading your trips...</p>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadTrips()">Try Again</button>
+    </div>
+
+    <!-- No trips message -->
+    <div *ngIf="!isLoading && !error && trips.length === 0" class="no-trips">
+      <h2>You haven't added any trips yet</h2>
+      <p>Go back to the trip search page to add places to your trips.</p>
+      <button class="btn btn-primary" routerLink="../trip-search">
+        Find Trips
+      </button>
+    </div>
+
+    <!-- Trips list -->
+    <div *ngIf="!isLoading && trips.length > 0" class="trips-list">
+      <div *ngFor="let trip of trips" class="trip-card">
+        <div class="trip-header">
+          <h3>{{ trip.cityName }}</h3>
+          <div class="trip-dates">
+            <span
+              >{{ formatDate(trip.startDate) }} -
+              {{ formatDate(trip.endDate) }}</span
+            >
+          </div>
+        </div>
+
+        <div class="trip-details">
+          <!-- Tourist Places -->
+          <div class="trip-places">
+            <h4>Places to Visit</h4>
+            <div class="places-grid">
+              <div *ngFor="let place of trip.touristPlaces" class="place-item">
+                <img
+                  [src]="place.pictureUrl"
+                  [alt]="place.name"
+                  class="place-img"
+                />
+                <div class="place-info">
+                  <h5>{{ place.name }}</h5>
+                  <p class="place-category">{{ place.category }}</p>
+                  <p class="place-price">${{ place.price }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hotel details if available -->
+          <!-- <div *ngIf="trip.hotel" class="trip-hotel">
+            <h4>Hotel</h4>
+            <div class="hotel-card">
+              <img
+                [src]="trip.hotel.pictureUrl || trip.hotel.pictureUrl"
+                alt="Hotel image"
+                class="hotel-img"
+              />
+              <div class="hotel-info">
+                <h5>{{ trip.hotel.name }}</h5>
+                <p class="hotel-address">{{ trip.hotel.address }}</p>
+                <div class="hotel-rating">Rating: {{ trip.hotel.rate }}/5</div>
+                <p class="hotel-price">
+                  ${{ trip.hotel.startPrice }} per night
+                </p>
+              </div>
+            </div> -->
+          <!-- </div> -->
+
+          <!-- Trip Summary -->
+          <div class="trip-summary">
+            <div class="summary-item">
+              <span>Total Places:</span>
+              <span>{{ trip.touristPlaces.length }}</span>
+            </div>
+            <div class="summary-item">
+              <span>Trip Duration:</span>
+              <!-- <span
+                >{{ 
+                Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))
+                }}
+                days</span -->
+              >
+            </div>
+            <div class="summary-item total">
+              <span>Estimated Total:</span>
+              <span>${{ calculateTripTotal(trip) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trip-actions">
+          <button class="btn btn-danger" (click)="removeTrip(trip.tripId)">
+            Remove Trip
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

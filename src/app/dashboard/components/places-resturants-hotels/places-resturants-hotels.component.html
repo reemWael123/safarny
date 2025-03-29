@@ -1,53 +1,104 @@
-
-<div class="header" *ngIf="pageId==1">
-   <img src="../../../../assets/images/cairo.png" class="header-img">
-   <h1 class="position-absolute top-50 font  text-white ">Cairo & Giza</h1>
+<div class="header" *ngIf="pageId == 1">
+  <img src="../../../../assets/images/cairo.png" class="header-img" />
+  <h1 class="position-absolute top-50 font text-white">Cairo & Giza</h1>
 </div>
 
-<div class="header" *ngIf="pageId==2">
-    <img src="../../../../assets/images/alex.png" class="header-img">
-    <h1 class="position-absolute top-50 font  text-white text-center ">Alexandria</h1>
- </div>
- 
-<div class="header" *ngIf="pageId==3">
-    <img src="../../../../assets/images/lux.png" class="header-img">
-    <h1 class="position-absolute top-50 font  text-white ">Luxor</h1>
- </div>
- 
-<div class="header" *ngIf="pageId==4">
-    <img src="../../../../assets/images/aswan.png" class="header-img">
-    <h1 class="position-absolute top-50 font  text-white ">Aswan</h1>
- </div>
+<div class="header" *ngIf="pageId == 2">
+  <img src="../../../../assets/images/alex.png" class="header-img" />
+  <h1 class="position-absolute top-50 font text-white text-center">
+    Alexandria
+  </h1>
+</div>
+
+<div class="header" *ngIf="pageId == 3">
+  <img src="../../../../assets/images/lux.png" class="header-img" />
+  <h1 class="position-absolute top-50 font text-white">Luxor</h1>
+</div>
+
+<div class="header" *ngIf="pageId == 4">
+  <img src="../../../../assets/images/aswan.png" class="header-img" />
+  <h1 class="position-absolute top-50 font text-white">Aswan</h1>
+</div>
 <div class="nav-bar m-3">
-    <a  class="nav-item" routerLinkActive="active">Hotels</a>
-    <a  class="nav-item "  routerLinkActive="active" (click)="getallresturants(pageId)">Restaurants</a>
-    <a class="nav-item"  routerLinkActive="active" (click)="getallplaces(pageId)">Places</a>
+  <a class="nav-item" routerLinkActive="active" (click)="getAllHotels(pageId)"
+    >Hotels</a
+  >
+  <a
+    class="nav-item"
+    routerLinkActive="active"
+    (click)="getallresturants(pageId)"
+    >Restaurants</a
+  >
+  <a class="nav-item" routerLinkActive="active" (click)="getallplaces(pageId)"
+    >Places</a
+  >
 </div>
 
 <div class="container">
-    <div class="row" *ngIf="places" >
-        <div class="col-md-4"  *ngFor="let item of places ">
-            <a class="card custom-card" [routerLink]="['/dashboard/home/details', item.id]">
-                <img class="card-img-top custom-img" [src]="item.pictureUrl" alt="Card image">
-                <div class="card-body">
-                  <h5 class="card-title">{{item.name}}</h5>
-                  <a [routerLink]="['/PRH', item.id]" class="btn btn-primary">Read more</a>
-                </div>
-            </a>
+  <div class="row" *ngIf="places">
+    <div class="col-md-4" *ngFor="let item of places">
+      <a
+        class="card custom-card"
+        [routerLink]="['/dashboard/home/details', item.id]"
+      >
+        <img
+          class="card-img-top custom-img"
+          [src]="item.pictureUrl"
+          alt="Card image"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ item.name }}</h5>
+          <a [routerLink]="['/PRH', item.id]" class="btn btn-primary"
+            >Read more</a
+          >
         </div>
+      </a>
     </div>
-    <div *ngIf="resturant"> 
-         <h6> do yo want to fillter resturants?</h6>
-        <button (click)="yess = true" class="btn border-0 rounded-circle p-3 main m-1">Yes</button>
-        <button (click)="yess = false" class="btn border-0 rounded-circle p-3 main m-1">No</button>
-        <div>
-            <div class="hello" *ngIf="yess">
-                <!-- المحتوى هنا سيظهر عند الضغط على Yes -->
-                
-                <div class="card">
-                    <h4 class="text-center">Choose Your Preferences</h4>
-                   <div class="row">
-                    <!-- <div class="col-md-3">
+  </div>
+
+  <div class="row" *ngIf="hotels">
+    <div class="col-md-4" *ngFor="let hotel of hotels">
+      <a class="card custom-card">
+        <img
+          class="card-img-top custom-img"
+          [src]="hotel.pictureUrl"
+          alt="Card image"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ hotel.name }}</h5>
+          <p class="rating">rate: {{ hotel.rate }}</p>
+          <a
+            [routerLink]="['/dashboard/home/hotel-rooms', hotel.id]"
+            class="btn btn-primary"
+            >Rooms</a
+          >
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div *ngIf="resturant">
+    <h6>do yo want to fillter resturants?</h6>
+    <button
+      (click)="yess = true"
+      class="btn border-0 rounded-circle p-3 main m-1"
+    >
+      Yes
+    </button>
+    <button
+      (click)="yess = false"
+      class="btn border-0 rounded-circle p-3 main m-1"
+    >
+      No
+    </button>
+    <div>
+      <div class="hello" *ngIf="yess">
+        <!-- المحتوى هنا سيظهر عند الضغط على Yes -->
+
+        <div class="card">
+          <h4 class="text-center">Choose Your Preferences</h4>
+          <div class="row">
+            <!-- <div class="col-md-3">
                         
                         <div class="mb-3">
                             <label class="form-label"><strong>Dining Options:</strong></label><br>
@@ -67,45 +118,82 @@
                     </div>
                      -->
 
-                    <!-- <div class="col-md-3"> 
+            <!-- <div class="col-md-3"> 
                       
                         <div class="mb-3">
                             <label class="form-label"><strong>Rate (1-10):</strong></label>
                             <input type="number" class="form-control" min="1" max="10" placeholder="Enter rating"  [(ngModel)]="rate">
                         </div>
                     </div> -->
-                    <div class="col-md-6">
-                        <!-- Type -->
-                        <div class="mb-3">
-                            <label class="form-label"><strong>Type:</strong></label><br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" [(ngModel)]="type" value="Egyptian">
-                                <label class="form-check-label">Egyptian</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" [(ngModel)]="type" value="Grills & Seafood">
-                                <label class="form-check-label">Grills & Seafood</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" [(ngModel)]="type" value="International">
-                                <label class="form-check-label">International</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" [(ngModel)]="type" value="Italian">
-                                <label class="form-check-label">Italian</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" [(ngModel)]="type" value="Fine Dining">
-                                <label class="form-check-label">Fine Dining</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="type" [(ngModel)]="type" value="Syrian">
-                                <label class="form-check-label">Syrian</label>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <!-- <div class="col-md-3">
+            <div class="col-md-6">
+              <!-- Type -->
+              <div class="mb-3">
+                <label class="form-label"><strong>Type:</strong></label
+                ><br />
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="type"
+                    [(ngModel)]="type"
+                    value="Egyptian"
+                  />
+                  <label class="form-check-label">Egyptian</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="type"
+                    [(ngModel)]="type"
+                    value="Grills & Seafood"
+                  />
+                  <label class="form-check-label">Grills & Seafood</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="type"
+                    [(ngModel)]="type"
+                    value="International"
+                  />
+                  <label class="form-check-label">International</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="type"
+                    [(ngModel)]="type"
+                    value="Italian"
+                  />
+                  <label class="form-check-label">Italian</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="type"
+                    [(ngModel)]="type"
+                    value="Fine Dining"
+                  />
+                  <label class="form-check-label">Fine Dining</label>
+                </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="type"
+                    [(ngModel)]="type"
+                    value="Syrian"
+                  />
+                  <label class="form-check-label">Syrian</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-3">
                         
                         <div class="mb-3">
                             <label class="form-label"><strong>Price Range:</strong></label><br>
@@ -123,48 +211,67 @@
                             </div>
                         </div>
                     </div> -->
-                
-                    <div class="col-md-6">
-                        <!-- Meal Time -->
-                        <div class="mb-3">
-                            <label class="form-label"><strong>Meal Time:</strong></label><br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="mealTime" [(ngModel)]="mealTime" value="Breakfast">
-                                <label class="form-check-label">Breakfast</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="mealTime" [(ngModel)]="mealTime" value="Lunch">
-                                <label class="form-check-label">Lunch</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="mealTime" [(ngModel)]="mealTime" value="Dinner">
-                                <label class="form-check-label">Dinner</label>
-                            </div>
-                        </div>
-                    </div>
-                
-                      
-                    <button (click)="fillter()"  class="btn border-0  p-3 w-50 main m-1 ">submit</button>
+
+            <div class="col-md-6">
+              <!-- Meal Time -->
+              <div class="mb-3">
+                <label class="form-label"><strong>Meal Time:</strong></label
+                ><br />
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="mealTime"
+                    [(ngModel)]="mealTime"
+                    value="Breakfast"
+                  />
+                  <label class="form-check-label">Breakfast</label>
                 </div>
-            </div>
-            </div>
-        </div>
-        <div class="row"  >
-        
-        <div class="col-md-4"  *ngFor="let item of resturant ">
-            <div class="card custom-card">
-                <img class="card-img-top custom-img" [src]="item.pictureUrl" alt="Card image">
-                <div class="card-body">
-                  <h5 class="card-title">{{item.name}}</h5>
-                  <!-- <a [routerLink]="['/PRH', item.id]" class="btn btn-primary">Read more</a> -->
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="mealTime"
+                    [(ngModel)]="mealTime"
+                    value="Lunch"
+                  />
+                  <label class="form-check-label">Lunch</label>
                 </div>
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    name="mealTime"
+                    [(ngModel)]="mealTime"
+                    value="Dinner"
+                  />
+                  <label class="form-check-label">Dinner</label>
+                </div>
+              </div>
             </div>
+
+            <button (click)="fillter()" class="btn border-0 p-3 w-50 main m-1">
+              submit
+            </button>
+          </div>
         </div>
+      </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-4" *ngFor="let item of resturant">
+        <div class="card custom-card">
+          <img
+            class="card-img-top custom-img"
+            [src]="item.pictureUrl"
+            alt="Card image"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <!-- <a [routerLink]="['/PRH', item.id]" class="btn btn-primary">Read more</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
- 
-
-
-
-

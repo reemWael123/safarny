@@ -1,0 +1,499 @@
+/* trip-search.component.scss */
+
+// Variables
+$primary-color: #8b6c38;
+$secondary-color: #5b4825;
+$dark-color: #333;
+$light-color: #f8f9fa;
+$border-color: #ced4da;
+
+// Mixins
+@mixin card-shadow {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+@mixin transition {
+  transition: all 0.3s ease;
+}
+
+// SCSS for the component
+.safarny-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: $dark-color;
+}
+
+// Hero section
+// .hero-section {
+//   background-image: url("/assets/images/egypt-pyramids.jpg");
+//   background-size: cover;
+//   background-position: center;
+//   height: 400px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   h1 {
+//     color: white;
+//     font-size: 4rem;
+//     font-weight: 700;
+//     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+//   }
+// }
+.header {
+  height: 70vh;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 50px;
+
+  &__img {
+    height: 100%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6));
+    position: relative;
+
+    img {
+      display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      z-index: -1;
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .heading-primary {
+    font-size: 7.4rem;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  &__text {
+    width: 700px;
+    letter-spacing: 3px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+}
+
+// New Places section
+.new-places {
+  padding: 2rem 0;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .places-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+
+    .place-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      @include card-shadow;
+
+      img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+      }
+
+      .place-name {
+        position: absolute;
+        bottom: 25px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 0.5rem;
+        color: white;
+        font-weight: 600;
+        font-size: 1.2rem;
+      }
+
+      .place-city {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        text-align: center;
+        padding: 0.5rem;
+        color: white;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// Main content layout
+.main-content {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+// Sidebar with filters
+.filters-sidebar {
+  flex: 0 0 250px;
+
+  .filter-section {
+    margin-bottom: 1.5rem;
+
+    h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: $primary-color;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .checkbox-item {
+        display: flex;
+        align-items: center;
+
+        input[type="checkbox"] {
+          margin-right: 0.5rem;
+        }
+
+        &.selected {
+          label {
+            color: $primary-color;
+            font-weight: 600;
+
+            &::before {
+              content: "• ";
+              color: $primary-color;
+            }
+          }
+        }
+
+        .city-label {
+          cursor: pointer;
+          @include transition;
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  .price-inputs {
+    display: flex;
+    gap: 1rem;
+
+    .price-field {
+      flex: 1;
+
+      label {
+        display: block;
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+      }
+
+      .price-input {
+        width: 100%;
+        padding: 0.3rem;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .rating-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .rating-option {
+      display: flex;
+      align-items: center;
+
+      input[type="radio"] {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .filter-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    .btn,
+    a {
+      padding: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      @include transition;
+
+      &.btn-primary {
+        background-color: $primary-color;
+        color: white;
+
+        &:hover {
+          background-color: darken($primary-color, 10%);
+        }
+      }
+
+      &.btn-secondary,
+      a {
+        background-color: $secondary-color;
+        color: white;
+
+        &:hover {
+          background-color: darken($secondary-color, 10%);
+        }
+      }
+    }
+  }
+}
+
+// Main content area
+.content-area {
+  flex: 1;
+
+  section {
+    margin-bottom: 3rem;
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: $primary-color;
+    }
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+
+    .card {
+      border-radius: 8px;
+      overflow: hidden;
+      @include card-shadow;
+      background: white;
+
+      .card-image {
+        position: relative;
+        height: 180px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .favorite-btn {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background: white;
+          border: none;
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          @include transition;
+
+          &:hover {
+            transform: scale(1.1);
+          }
+
+          i {
+            color: #999;
+          }
+        }
+      }
+
+      .card-content {
+        padding: 1rem;
+
+        h4 {
+          margin-bottom: 0.5rem;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        .location {
+          font-size: 0.9rem;
+          color: #666;
+          margin-bottom: 0.5rem;
+        }
+
+        .price {
+          font-size: 0.9rem;
+          color: $primary-color;
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+
+        .add-to-cart,
+        .book-now-btn {
+          width: 100%;
+          padding: 0.5rem;
+          background: none;
+          border: 1px solid $primary-color;
+          color: $primary-color;
+          font-size: 0.9rem;
+          border-radius: 4px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          @include transition;
+
+          &:hover {
+            background-color: $primary-color;
+            color: white;
+          }
+
+          i {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+
+    .page-btn,
+    .next-btn {
+      min-width: 32px;
+      height: 32px;
+      border: 1px solid $border-color;
+      background: white;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      @include transition;
+
+      &:hover {
+        border-color: $primary-color;
+        color: $primary-color;
+      }
+
+      &.active {
+        background-color: $primary-color;
+        color: white;
+        border-color: $primary-color;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 992px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .filters-sidebar {
+    flex: none;
+    width: 100%;
+  }
+
+  .new-places .places-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .new-places .places-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content-area .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
+}
+
+// Add these styles to your component's SCSS file
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 0.5rem;
+
+  .page-btn {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    &.active {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &.prev,
+    &.next {
+      padding: 0.5rem 0.75rem;
+    }
+  }
+}
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
