@@ -65,6 +65,7 @@ export class BookingModalComponent implements OnInit {
       ]);
   }
 
+  // booking-modal.component.ts - Update onSubmit method
   onSubmit(): void {
     if (this.bookingForm.invalid) {
       this.markFormGroupTouched(this.bookingForm);
@@ -84,8 +85,17 @@ export class BookingModalComponent implements OnInit {
 
     this.bookingService.createBooking(bookingData).subscribe({
       next: (response) => {
+        console.log(response);
+
         this.isSubmitting = false;
-        this.bookingComplete.emit(response);
+        if (response.ok && response.body.bookingId) {
+          // Close the modal and navigate to confirmation page
+          this.close.emit(); // Close the modal first
+
+          this.bookingService.navigateToConfirmation(response.body.bookingId);
+        } else {
+          this.errorMessage = 'Failed to create booking. Please try again.';
+        }
       },
       error: (error) => {
         this.isSubmitting = false;

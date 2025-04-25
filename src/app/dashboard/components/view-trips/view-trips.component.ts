@@ -5,6 +5,7 @@ import { TripSearchService } from 'src/app/services/trip-search.service';
 interface Trip {
   tripId: number;
   cityName: string;
+  cityId: number; // Added cityId
   touristPlaces: {
     id: number;
     name: string;
@@ -40,6 +41,8 @@ export class ViewTripsComponent implements OnInit {
   trips: Trip[] = [];
   isLoading: boolean = false;
   error: string | null = null;
+  bookingInProgress: boolean = false;
+  bookingSuccess: string | null = null;
 
   constructor(
     private tripService: TripSearchService,
@@ -70,10 +73,10 @@ export class ViewTripsComponent implements OnInit {
     });
   }
 
-  removeTrip(tripId: number): void {
+  removeCartItem(tripId: number): void {
     this.isLoading = true;
 
-    this.tripService.deleteTrip(tripId.toString()).subscribe({
+    this.tripService.deleteCartItem(tripId.toString()).subscribe({
       next: () => {
         // Remove from local array
         this.trips = this.trips.filter((trip) => trip.tripId !== tripId);
@@ -103,5 +106,42 @@ export class ViewTripsComponent implements OnInit {
     const hotelPrice = trip.hotel?.startPrice || 0;
 
     return placesTotal + hotelPrice;
+  }
+
+  // Book a trip
+  bookTrip(trip: Trip): void {
+    let tripId = trip.tripId;
+    this.bookingInProgress = true;
+    this.bookingSuccess = null;
+    this.error = null;
+
+    // Create the booking data object
+    const bookingData = {
+      userId: this.userId,
+      cityId:
+        trip.cityId ||
+        (trip.touristPlaces.length > 0 ? trip.touristPlaces[0].cityId : 0),
+      hotelId: trip.hotel ? trip.hotel.id : 0,
+      startDate: trip.startDate,
+      endDate: trip.endDate,
+      rate: trip.hotel ? trip.hotel.rate : 0,
+    };
+
+    this.tripService.finalizeTrip(bookingData).subscribe({
+      next: (response) => {
+        console.log('Booking successful:', response);
+        this.bookingSuccess = `Your trip to ${trip.cityName} has been successfully booked!`;
+        this.bookingInProgress = false;
+
+        // Remove the booked trip from cart
+        // this.removeCartItem(tripId);
+        this.loadTrips();
+      },
+      error: (err) => {
+        console.error('Error booking trip:', err);
+        this.error = 'Failed to book trip. Please try again.';
+        this.bookingInProgress = false;
+      },
+    });
   }
 }

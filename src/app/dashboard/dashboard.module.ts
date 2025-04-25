@@ -36,6 +36,9 @@ import { TripSearchComponent } from './components/trip-search/trip-search.compon
 import { ViewTripsComponent } from './components/view-trips/view-trips.component';
 import { HotelRoomsComponent } from './components/hotel-rooms/hotel-rooms.component';
 import { BookingModalComponent } from './components/booking-modal/booking-modal.component';
+import { BookingConfirmationComponent } from './components/booking-confirmation/booking-confirmation.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { BookingModalComponent } from './components/booking-modal/booking-modal.
     ViewTripsComponent,
     HotelRoomsComponent,
     BookingModalComponent,
+    BookingConfirmationComponent,
+    PaymentSuccessComponent,
+    HotelDetailsComponent,
   ],
   imports: [
     CommonModule,

@@ -31,7 +31,7 @@ interface Hotel {
   city: string;
   location: string;
   image: string;
-  pricePerNight: number;
+  startPrice: number;
   rating: number;
 }
 
@@ -215,8 +215,8 @@ export class TripSearchComponent implements OnInit {
 
       this.filteredHotels = this.filteredHotels.filter(
         (hotel) =>
-          hotel.pricePerNight >= formValues.priceMin &&
-          hotel.pricePerNight <= formValues.priceMax
+          hotel.startPrice >= formValues.priceMin &&
+          hotel.startPrice <= formValues.priceMax
       );
     }
 
@@ -399,7 +399,7 @@ export class TripSearchComponent implements OnInit {
       this.cartItems.push(place);
 
       // Get selected hotel if any
-      const hotelId = formValues.hotelId || 0;
+      const hotelId = formValues.hotelId || 2;
 
       // Get selected cities and find main city for this place
       const selectedCities = formValues.cities || [];
@@ -461,7 +461,7 @@ export class TripSearchComponent implements OnInit {
       // We need the trip ID to delete it
       this.tripService.getTripIdByPlaceId(place.id, this.userId).subscribe({
         next: (tripId) => {
-          this.tripService.deleteTrip(tripId).subscribe({
+          this.tripService.deleteCartItem(tripId).subscribe({
             next: () => console.log('Removed from trip'),
             error: (error) => console.error('Error removing from trip:', error),
           });

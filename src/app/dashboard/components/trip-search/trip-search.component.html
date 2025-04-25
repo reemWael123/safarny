@@ -164,15 +164,15 @@
 
       <!-- Action buttons -->
       <div class="filter-actions">
-        <button class="btn btn-primary" (click)="filterResults()">
+        <!-- <button class="btn btn-primary" (click)="filterResults()">
           FIND TRIPS
-        </button>
+        </button> -->
 
         <button
           [routerLink]="['../view-trips', userId]"
           class="btn btn-secondary"
         >
-          VIEW YOUR TRIPS
+          VIEW YOUR CART
         </button>
 
         <button class="btn btn-outline-secondary" (click)="clearAllFilters()">
@@ -265,7 +265,7 @@
               <h4>{{ hotel.name }}</h4>
               <div class="location">{{ hotel.city }}</div>
               <div class="price">
-                From: ${{ hotel.pricePerNight }} per person/night
+                From: ${{ hotel.startPrice }} per person/night
               </div>
               <div class="rating">Rating: {{ hotel.rating }}</div>
               <button class="book-now-btn" (click)="selectHotel(hotel)">

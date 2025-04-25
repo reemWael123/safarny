@@ -7,10 +7,21 @@
   </header>
 
   <div class="trips-container">
+    <!-- Booking Success Message -->
+    <div *ngIf="bookingSuccess" class="booking-success">
+      <p>{{ bookingSuccess }}</p>
+    </div>
+
     <!-- Loading indicator -->
-    <div *ngIf="isLoading" class="loading-spinner">
+    <div *ngIf="isLoading || bookingInProgress" class="loading-spinner">
       <div class="spinner"></div>
-      <p>Loading your trips...</p>
+      <p>
+        {{
+          bookingInProgress
+            ? "Processing your booking..."
+            : "Loading your trips..."
+        }}
+      </p>
     </div>
 
     <!-- Error message -->
@@ -23,7 +34,7 @@
     <div *ngIf="!isLoading && !error && trips.length === 0" class="no-trips">
       <h2>You haven't added any trips yet</h2>
       <p>Go back to the trip search page to add places to your trips.</p>
-      <button class="btn btn-primary" routerLink="../trip-search">
+      <button class="btn btn-primary" routerLink="../../trip-search">
         Find Trips
       </button>
     </div>
@@ -62,7 +73,7 @@
           </div>
 
           <!-- Hotel details if available -->
-          <!-- <div *ngIf="trip.hotel" class="trip-hotel">
+          <div *ngIf="trip.hotel" class="trip-hotel">
             <h4>Hotel</h4>
             <div class="hotel-card">
               <img
@@ -78,35 +89,47 @@
                   ${{ trip.hotel.startPrice }} per night
                 </p>
               </div>
-            </div> -->
-          <!-- </div> -->
+            </div>
+            <!-- </div>
 
           <!-- Trip Summary -->
-          <div class="trip-summary">
-            <div class="summary-item">
-              <span>Total Places:</span>
-              <span>{{ trip.touristPlaces.length }}</span>
-            </div>
-            <div class="summary-item">
-              <span>Trip Duration:</span>
-              <!-- <span
+            <div class="trip-summary">
+              <div class="summary-item">
+                <span>Total Places:</span>
+                <span>{{ trip.touristPlaces.length }}</span>
+              </div>
+              <div class="summary-item">
+                <span>Trip Duration:</span>
+                <!-- <span
                 >{{ 
                 Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))
                 }}
                 days</span -->
-              >
-            </div>
-            <div class="summary-item total">
-              <span>Estimated Total:</span>
-              <span>${{ calculateTripTotal(trip) }}</span>
+                >
+              </div>
+              <div class="summary-item total">
+                <span>Estimated Total:</span>
+                <span>${{ calculateTripTotal(trip) }}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="trip-actions">
-          <button class="btn btn-danger" (click)="removeTrip(trip.tripId)">
-            Remove Trip
-          </button>
+          <div class="trip-actions">
+            <button
+              class="btn btn-book"
+              (click)="bookTrip(trip)"
+              [disabled]="bookingInProgress"
+            >
+              Book Trip
+            </button>
+            <button
+              class="btn btn-danger"
+              (click)="removeCartItem(trip.tripId)"
+              [disabled]="bookingInProgress"
+            >
+              Remove Trip
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -180,12 +180,14 @@ export class TripSearchService {
 
   // Get user's trips
   getUserTrips(userId: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiBaseUrl}/view-trips/${userId}`).pipe(
-      catchError((error) => {
-        console.error('Error fetching user trips:', error);
-        return of([]);
-      })
-    );
+    return this.http
+      .get<any[]>(`http://safarny.runasp.net/api/TripBooking/cart/${userId}`)
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching user trips:', error);
+          return of([]);
+        })
+      );
   }
 
   getTripIdByPlaceId(placeId: number, userId: string): Observable<string> {
@@ -228,12 +230,28 @@ export class TripSearchService {
     );
   }
 
+  finalizeTrip(bookingData: {
+    userId: string;
+    cityId: number;
+    hotelId: number;
+    startDate: string;
+    endDate: string;
+    rate: number;
+  }) {
+    return this.http.post(
+      'http://safarny.runasp.net/api/TripBooking/finalize-trip',
+      bookingData
+    );
+  }
+
   resetUserTrips(userId: string): Observable<any> {
     return this.http.delete(`${this.apiBaseUrl}/reset/${userId}`);
   }
 
-  deleteTrip(tripId: string): Observable<any> {
-    return this.http.delete(`${this.apiBaseUrl}/delete-trip/${tripId}`);
+  deleteCartItem(tripId: string): Observable<any> {
+    return this.http.delete(
+      `http://safarny.runasp.net/api/TripBooking/DeleteCartItem/${tripId}`
+    );
   }
 
   private convertFiltersToParams(filters: SearchFilters): any {

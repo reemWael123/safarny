@@ -1,0 +1,108 @@
+<!-- booking-confirmation.component.html -->
+<div class="confirmation-container">
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading booking details...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fa fa-exclamation-circle"></i>
+    <span>{{ errorMessage }}</span>
+    <button class="back-btn" (click)="goBack()">Back to Hotels</button>
+  </div>
+
+  <div
+    *ngIf="!isLoading && !errorMessage && bookingDetails"
+    class="booking-details"
+  >
+    <div class="confirmation-header">
+      <h1>Booking Confirmation</h1>
+      <div class="booking-id">
+        Booking ID: <span>{{ bookingDetails.bookingId }}</span>
+      </div>
+    </div>
+
+    <div class="confirmation-card">
+      <div class="card-section">
+        <h2>Hotel Room Details</h2>
+        <div class="detail-row">
+          <span class="label">Room Type:</span>
+          <span class="value">{{ bookingDetails.roomType }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Hotel ID:</span>
+          <span class="value">{{ bookingDetails.hotelId }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Room ID:</span>
+          <span class="value">{{ bookingDetails.roomId }}</span>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h2>Guest Information</h2>
+        <div class="detail-row">
+          <span class="label">Name:</span>
+          <span class="value">{{ bookingDetails.username }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Email:</span>
+          <span class="value">{{ bookingDetails.email }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Number of Guests:</span>
+          <span class="value">{{ bookingDetails.numberOfPersons }}</span>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h2>Stay Information</h2>
+        <div class="detail-row">
+          <span class="label">Check-in:</span>
+          <span class="value">{{
+            formatDate(bookingDetails.checkInDate)
+          }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Check-out:</span>
+          <span class="value">{{
+            formatDate(bookingDetails.checkOutDate)
+          }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Length of Stay:</span>
+          <span class="value">{{ calculateNights() }} night(s)</span>
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <div class="price-summary">
+          <div class="price-row">
+            <span>Total Amount:</span>
+            <span class="total-price">${{ bookingDetails.totalPrice }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="paymentError" class="payment-error">
+          <i class="fa fa-exclamation-triangle"></i>
+          <span>{{ paymentError }}</span>
+        </div>
+
+        <button
+          *ngIf="!paymentSuccess"
+          class="pay-now-btn"
+          [disabled]="paymentProcessing"
+          (click)="payNow()"
+        >
+          <span *ngIf="!paymentProcessing">Pay Now</span>
+          <span *ngIf="paymentProcessing">Processing Payment...</span>
+        </button>
+
+        <div *ngIf="paymentSuccess" class="payment-success">
+          <i class="fa fa-check-circle"></i>
+          <span>Payment Successful! Redirecting...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
