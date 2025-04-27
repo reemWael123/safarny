@@ -5,23 +5,19 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { SharedComponent } from './shared.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatIconModule} from '@angular/material/icon';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatCardModule} from '@angular/material/card';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
-  declarations: [
-    SharedComponent,
-    NavbarComponent,
-    FooterComponent
-  ],
+  declarations: [SharedComponent, NavbarComponent, FooterComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -34,9 +30,9 @@ import {MatRadioModule} from '@angular/material/radio';
     MatMenuModule,
     MatCheckboxModule,
     MatCardModule,
-    MatRadioModule
+    MatRadioModule,
   ],
-  exports:[
+  exports: [
     NavbarComponent,
     FooterComponent,
     MatNativeDateModule,
@@ -45,12 +41,12 @@ import {MatRadioModule} from '@angular/material/radio';
     CalendarModule,
     ReactiveFormsModule,
     FormsModule,
-    MatInputModule ,
+    MatInputModule,
     MatMenuModule,
     MatIconModule,
     MatCheckboxModule,
     MatCardModule,
-    MatRadioModule
-  ]
+    MatRadioModule,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

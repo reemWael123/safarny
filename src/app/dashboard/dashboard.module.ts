@@ -39,6 +39,8 @@ import { BookingModalComponent } from './components/booking-modal/booking-modal.
 import { BookingConfirmationComponent } from './components/booking-confirmation/booking-confirmation.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
+import { TripSummaryComponent } from './components/trip-summary/trip-summary.component';
+import { UniquePlacesPipe } from './pipes/unique-places.pipe';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { HotelDetailsComponent } from './components/hotel-details/hotel-details.
     BookingConfirmationComponent,
     PaymentSuccessComponent,
     HotelDetailsComponent,
+    TripSummaryComponent,
+    UniquePlacesPipe,
   ],
   imports: [
     CommonModule,

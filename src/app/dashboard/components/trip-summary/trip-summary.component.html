@@ -1,0 +1,142 @@
+<header class="header">
+  <h1 class="heading-primary">Your Trip Itinerary</h1>
+</header>
+<div class="safarny-container">
+  <div class="summary-container">
+    <!-- Error message -->
+    <div *ngIf="error" class="error-message">
+      <p>{{ error }}</p>
+      <button class="btn btn-primary" (click)="loadTripSummary()">
+        Try Again
+      </button>
+    </div>
+
+    <!-- Success message -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+    </div>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading your trip summary...</p>
+    </div>
+
+    <!-- Timeline -->
+    <div *ngIf="!isLoading && tripCities.length > 0" class="timeline">
+      <div *ngFor="let city of tripCities; let i = index" class="timeline-step">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div>
+            <div class="content-header">
+              <div class="header-text">
+                <h3>{{ city.cityName }}</h3>
+                <div class="timeline-dates">
+                  <p>
+                    <strong>Start:</strong>
+                    {{ city.startDate | date : "MMM d, yyyy" }}
+                  </p>
+                  <p>
+                    <strong>End:</strong>
+                    {{ city.endDate | date : "MMM d, yyyy" }}
+                  </p>
+                  <p><strong>Days:</strong> {{ city.daysInCity }}</p>
+                  <!-- Display arrivalAirport for first city -->
+                  <p *ngIf="i === 0" class="d-flex flex-column">
+                    <strong>Arrival Airport:</strong>
+                    <span> {{ city.arrivalAirport }}</span>
+                  </p>
+                  <!-- Display departureAirport for last city -->
+                  <p
+                    *ngIf="i === tripCities.length - 1"
+                    class="d-flex flex-column"
+                  >
+                    <strong>Departure Airport:</strong>
+                    {{ city.departureAirport }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="timeline-details">
+              <h4>Hotel</h4>
+              <p *ngIf="city.hotel; else noHotel">
+                {{ city.hotel.hotelName }} ({{ city.hotel.rating }}/5, ${{
+                  city.hotel.pricePerNight
+                }}/night)
+              </p>
+              <ng-template #noHotel>
+                <p>No hotel selected</p>
+              </ng-template>
+              <h4>Places to Visit</h4>
+              <ul>
+                <li *ngFor="let place of city.places | uniquePlaces">
+                  {{ place.placeName }}
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="place-gallery">
+            <h4>Place Gallery</h4>
+            <div class="gallery-images">
+              <div
+                *ngFor="let place of city.places | uniquePlaces"
+                class="gallery-image"
+              >
+                <img
+                  [src]="place.pictureUrl || placeholderImage"
+                  [alt]="place.placeName"
+                  [title]="place.pictureUrl ? place.pictureUrl : 'Placeholder'"
+                  (error)="handleImageError($event, place.placeName)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Number of People and Price Calculation -->
+    <div *ngIf="!isLoading && tripCities.length > 0" class="price-calculation">
+      <h3>Calculate Trip Price</h3>
+      <div class="calculation-input">
+        <label for="number-of-people">Number of People</label>
+        <input
+          type="number"
+          id="number-of-people"
+          [(ngModel)]="numberOfPeople"
+          min="1"
+          class="number-input"
+        />
+      </div>
+      <button
+        class="btn btn-primary"
+        (click)="calculateTripPrice()"
+        [disabled]="isCalculating"
+      >
+        {{ isCalculating ? "Calculating..." : "Calculate Price" }}
+      </button>
+      <div *ngIf="tripPrice" class="price-result">
+        <p>
+          <strong>Total Trip Price:</strong>
+          {{ tripPrice.totalTripPrice | currency }}
+        </p>
+        <p>
+          <strong>Price per Person:</strong>
+          {{ tripPrice.pricePerPerson | currency }}
+        </p>
+      </div>
+
+      <!-- Book Now Button -->
+      <div *ngIf="!isLoading && tripCities.length > 0" class="book-now">
+        <button
+          class="btn btn-primary"
+          (click)="bookNow()"
+          [disabled]="isLoading || isCalculating"
+        >
+          Book Now
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
