@@ -65,7 +65,7 @@ import { UniquePlacesPipe } from './pipes/unique-places.pipe';
     ViewTripsComponent,
     HotelRoomsComponent,
     BookingModalComponent,
-    ChatbotComponent,
+  
     BookingConfirmationComponent,
     PaymentSuccessComponent,
     HotelDetailsComponent,
