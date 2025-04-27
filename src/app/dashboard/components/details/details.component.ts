@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeneralService } from '../services/general.service';
 
@@ -7,13 +7,17 @@ import { GeneralService } from '../services/general.service';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss']
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit {
  pageId:number=0;
 constructor(private _ActivatedRoute:ActivatedRoute ,private _generalservice:GeneralService){
   this.pageId=this._ActivatedRoute.snapshot.params['id']
 this.getactivites(this.pageId)
 this.getdetailes(this.pageId)
 this.getresturants(this.pageId)
+} 
+ngOnInit(): void {
+  this.trackInteraction()
+  console.log('hi')
 }
 resturants:any
 place:any;
@@ -30,7 +34,20 @@ getdetailes(id:number){
     }
   });
 }
-
+trackInteraction() {
+  const username = localStorage.getItem('userName');
+  const touristPlaceId = localStorage.getItem('selectedPlaceId');
+console.log(username)
+  this._generalservice.TrackUserInteraction(username, touristPlaceId)
+    .subscribe({
+      next: (res) => {
+        console.log('Interaction tracked:', res);
+      },
+      error: (err) => {
+        console.error('Error tracking interaction:', err);
+      }
+    });
+}
 getactivites(id:number){
   
   this._generalservice.getdetails(id).subscribe({

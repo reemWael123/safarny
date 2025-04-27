@@ -1,6 +1,7 @@
+import { GeneralService } from './../services/general.service';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GeneralService } from '../services/general.service';
+
 
 @Component({
   selector: 'app-places-resturants-hotels',
@@ -38,7 +39,11 @@ export class PlacesResturantsHotelsComponent {
         console.error('Error:', err);
       },
     });
+  }  
+  storePlaceId(id: number) {
+    localStorage.setItem('selectedPlaceId', id.toString());
   }
+
   getallresturants(id: number) {
     this._generalservice.getresturants(id).subscribe({
       next: (response) => {
@@ -70,7 +75,10 @@ export class PlacesResturantsHotelsComponent {
   fillter() {
     this._generalservice.filter(this.type, this.mealTime).subscribe({
       next: (response) => {
-        console.log(response);
+      
+          this.resturant = response; // ✅ هنا بنستبدل البيانات باللي راجع من الفلتر
+          this.yess = false;    // اختياري: نخفي الفورم بعد الفلتر
+      console.log(response)
       },
       error: (err) => {
         console.error('Error:', err);
