@@ -1,6 +1,17 @@
-<!-- hotel-rooms.component.html -->
 <div class="hotel-rooms-container">
   <h2>Available Rooms</h2>
+
+  <!-- Search Input -->
+  <div class="search-container">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search rooms by type (e.g., Deluxe, Suite)..."
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onRoomSearch()"
+      aria-label="Search rooms"
+    />
+  </div>
 
   <div *ngIf="isLoading" class="loading-spinner">
     <div class="spinner"></div>
@@ -18,7 +29,7 @@
 
   <div *ngIf="!isLoading && !errorMessage" class="rooms-grid">
     <div
-      *ngFor="let room of rooms"
+      *ngFor="let room of displayedRooms"
       class="room-card"
       [ngClass]="{ unavailable: !room.isAvailable }"
     >
@@ -58,10 +69,14 @@
   </div>
 
   <div
-    *ngIf="!isLoading && !errorMessage && rooms.length === 0"
+    *ngIf="!isLoading && !errorMessage && displayedRooms.length === 0"
     class="no-rooms"
   >
-    No rooms available at this time.
+    {{
+      searchTerm
+        ? 'No rooms found for "' + searchTerm + '"'
+        : "No rooms available at this time."
+    }}
   </div>
 
   <!-- Booking Modal -->

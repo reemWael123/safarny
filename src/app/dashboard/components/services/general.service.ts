@@ -70,9 +70,25 @@ export class GeneralService {
     );
   }
 
+  searchHotels(query: string): Observable<any> {
+    return this._httpclinet.get(
+      `http://safarny.runasp.net/api/Search/NormalSearch/Hotels?query=${encodeURIComponent(
+        query
+      )}`
+    );
+  }
+
   getHotelRooms(hotelId: number) {
     return this._httpclinet.get<Room[]>(
       `http://safarny.runasp.net/api/Hotels/get-rooms-by-hotel/${hotelId}`
+    );
+  }
+
+  searchRooms(query: string): Observable<any> {
+    return this._httpclinet.get(
+      `http://safarny.runasp.net/api/Search/NormalSearch/Rooms?query=${encodeURIComponent(
+        query
+      )}`
     );
   }
 
@@ -92,6 +108,15 @@ export class GeneralService {
       'http://safarny.runasp.net/api/Packages/All_Packages'
     );
   }
+
+  searchPackages(query: string): Observable<any> {
+    return this._httpclinet.get(
+      `http://safarny.runasp.net/api/Search/NormalSearch/Packages?query=${encodeURIComponent(
+        query
+      )}`
+    );
+  }
+
   getpackgesdetails(packegeid: number): Observable<any> {
     return this._httpclinet.get(
       `http://safarny.runasp.net/api/Packages/${packegeid}`
