@@ -180,10 +180,14 @@ export class GeneralService {
   
     return this._httpclinet.post(url, null); // أو استخدمي {} بدل null
   }
-  chatbot(question: any, ): Observable<any> {
-    
+  chatbot(question: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
   
-    return this._httpclinet.post('http://safarny.runasp.net/api/Search/ChatWithAI', question);
+    const body = JSON.stringify(question); 
+  
+    return this._httpclinet.post('http://safarny.runasp.net/api/Search/ChatWithAI', body, { headers });
   }
   
   

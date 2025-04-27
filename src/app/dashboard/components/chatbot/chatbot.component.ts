@@ -23,7 +23,7 @@ export class ChatbotComponent {
     this.messages.push({ sender: 'user', text: question });
     this.userInput = '';
 
-    const body = { question: question }
+    const body = question
 
 
     this._generalservice.chatbot(body).subscribe({

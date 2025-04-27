@@ -1,3 +1,4 @@
+import { ChatbotComponent } from './../dashboard/components/chatbot/chatbot.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -16,8 +17,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatRadioModule } from '@angular/material/radio';
+
+
 @NgModule({
-  declarations: [SharedComponent, NavbarComponent, FooterComponent],
+  declarations: [SharedComponent, NavbarComponent, FooterComponent,    ChatbotComponent
+  ],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -47,6 +51,7 @@ import { MatRadioModule } from '@angular/material/radio';
     MatCheckboxModule,
     MatCardModule,
     MatRadioModule,
+   ChatbotComponent
   ],
 })
 export class SharedModule {}
