@@ -1,0 +1,87 @@
+<!-- hotel-details.component.html -->
+<div class="hotel-details-container">
+  <div *ngIf="isLoading" class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading hotel details...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <i class="fa fa-exclamation-circle"></i>
+    <p>{{ errorMessage }}</p>
+    <button class="back-btn" routerLink="/hotels">Back to Hotels</button>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && hotel" class="hotel-info">
+    <!-- Hotel Header Section -->
+    <div class="hotel-header">
+      <h1>{{ hotel.name }}</h1>
+      <div class="hotel-rating">
+        <div class="stars">
+          <i
+            class="fa fa-star"
+            *ngFor="let star of getStarsArray(hotel.rate)"
+          ></i>
+        </div>
+        <span class="rating-text">{{ hotel.rate }}-Star Hotel</span>
+      </div>
+      <div class="hotel-address">
+        <i class="fa fa-map-marker"></i>
+        <span>{{ hotel.address }}</span>
+      </div>
+    </div>
+
+    <!-- Hotel Images Gallery -->
+    <div class="hotel-gallery" *ngIf="hotel.images && hotel.images.length > 0">
+      <div class="gallery-container">
+        <div class="main-image">
+          <img [src]="hotel.images[0]" alt="{{ hotel.name }}" />
+        </div>
+        <div class="thumbnail-row" *ngIf="hotel.images.length > 1">
+          <div class="thumbnail" *ngFor="let image of hotel.images.slice(1, 5)">
+            <img [src]="image" alt="{{ hotel.name }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Default Image if no images available -->
+    <div
+      class="default-image"
+      *ngIf="!hotel.images || hotel.images.length === 0"
+    >
+      <img src="assets/images/hotel-placeholder.jpg" alt="{{ hotel.name }}" />
+    </div>
+
+    <!-- Hotel Overview -->
+    <div class="hotel-overview">
+      <h2>Overview</h2>
+      <p>{{ hotel.overview }}</p>
+    </div>
+
+    <!-- Hotel Features -->
+    <div class="hotel-features">
+      <h2>Features & Amenities</h2>
+      <ul class="feature-list">
+        <li *ngFor="let feature of hotel.features">
+          <i class="fa fa-check-circle"></i>
+          <span>{{ feature }}</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Price Info and CTA -->
+    <div class="hotel-price-box">
+      <div class="price-info">
+        <span class="price-from">Starting from</span>
+        <span class="price-amount">${{ hotel.startPrice }}</span>
+        <span class="price-night">per night</span>
+      </div>
+      <button
+        class="view-rooms-btn"
+        [routerLink]="['../../hotel-rooms', hotel.id]"
+      >
+        View Available Rooms
+      </button>
+    </div>
+  </div>
+</div>

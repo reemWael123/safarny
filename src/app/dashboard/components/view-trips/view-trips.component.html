@@ -1,22 +1,28 @@
+<header class="header">
+  <div class="header__img">
+    <img src="assets/images/trips.jpg" alt="" />
+    <h1 class="heading-primary mb-5">Your Trips</h1>
+  </div>
+</header>
 <div class="safarny-container">
-  <header class="header">
-    <div class="header__img">
-      <!-- <img src="assets/images/yourtrips.png" /> -->
-      <h1 class="heading-primary mb-5">Your Trips</h1>
-    </div>
-  </header>
-
   <div class="trips-container">
-    <!-- Loading indicator -->
-    <div *ngIf="isLoading" class="loading-spinner">
-      <div class="spinner"></div>
-      <p>Loading your trips...</p>
+    <!-- Success message -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
     </div>
 
     <!-- Error message -->
     <div *ngIf="error" class="error-message">
       <p>{{ error }}</p>
-      <button class="btn btn-primary" (click)="loadTrips()">Try Again</button>
+      <button class="btn btn-primary" (click)="loadCitiesAndTrips()">
+        Try Again
+      </button>
+    </div>
+
+    <!-- Loading indicator -->
+    <div *ngIf="isLoading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading your trips...</p>
     </div>
 
     <!-- No trips message -->
@@ -33,82 +39,125 @@
       <div *ngFor="let trip of trips" class="trip-card">
         <div class="trip-header">
           <h3>{{ trip.cityName }}</h3>
-          <div class="trip-dates">
-            <span
-              >{{ formatDate(trip.startDate) }} -
-              {{ formatDate(trip.endDate) }}</span
-            >
-          </div>
         </div>
 
         <div class="trip-details">
-          <!-- Tourist Places -->
-          <div class="trip-places">
-            <h4>Places to Visit</h4>
-            <div class="places-grid">
-              <div *ngFor="let place of trip.touristPlaces" class="place-item">
-                <img
-                  [src]="place.pictureUrl"
-                  [alt]="place.name"
-                  class="place-img"
-                />
-                <div class="place-info">
-                  <h5>{{ place.name }}</h5>
-                  <p class="place-category">{{ place.category }}</p>
-                  <p class="place-price">${{ place.price }}</p>
+          <div class="trip-content">
+            <!-- Places -->
+            <div class="trip-places">
+              <h4>Places to Visit</h4>
+              <div class="places-list">
+                <div *ngFor="let place of trip.places" class="place-item">
+                  <div class="place-image">
+                    <img
+                      [src]="place.pictureUrl"
+                      [alt]="place.placeName"
+                      (error)="handleImageError($event)"
+                    />
+                  </div>
+                  <div class="place-info">
+                    <h5>{{ place.placeName }}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hotels -->
+            <div class="trip-hotels">
+              <h4>Hotels</h4>
+              <div class="hotels-list">
+                <div
+                  *ngFor="let hotel of trip.hotels"
+                  class="hotel-item"
+                  [class.selected]="hotel.selected"
+                  (click)="$event.stopPropagation()"
+                >
+                  <div class="hotel-info">
+                    <h5>{{ hotel.hotelName }}</h5>
+                    <p class="hotel-rating">Rating: {{ hotel.rating }}/5</p>
+                    <p class="hotel-price">
+                      ${{ hotel.pricePerNight }} per night
+                    </p>
+                    <div class="selection">
+                      <input
+                        type="radio"
+                        [id]="'hotel-' + hotel.hotelId"
+                        [name]="'hotel-' + trip.cityName"
+                        [checked]="hotel.selected"
+                        [disabled]="hotelLoading.has(hotel.hotelId)"
+                        (change)="
+                          toggleHotelSelection(trip, hotel);
+                          $event.stopPropagation()
+                        "
+                      />
+                      <label [for]="'hotel-' + hotel.hotelId">
+                        {{
+                          hotelLoading.has(hotel.hotelId)
+                            ? "Updating..."
+                            : "Select"
+                        }}
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Hotel details if available -->
-          <!-- <div *ngIf="trip.hotel" class="trip-hotel">
-            <h4>Hotel</h4>
-            <div class="hotel-card">
-              <img
-                [src]="trip.hotel.pictureUrl || trip.hotel.pictureUrl"
-                alt="Hotel image"
-                class="hotel-img"
-              />
-              <div class="hotel-info">
-                <h5>{{ trip.hotel.name }}</h5>
-                <p class="hotel-address">{{ trip.hotel.address }}</p>
-                <div class="hotel-rating">Rating: {{ trip.hotel.rate }}/5</div>
-                <p class="hotel-price">
-                  ${{ trip.hotel.startPrice }} per night
-                </p>
-              </div>
-            </div> -->
-          <!-- </div> -->
-
           <!-- Trip Summary -->
           <div class="trip-summary">
             <div class="summary-item">
               <span>Total Places:</span>
-              <span>{{ trip.touristPlaces.length }}</span>
+              <span>{{ trip.places.length }}</span>
             </div>
             <div class="summary-item">
-              <span>Trip Duration:</span>
-              <!-- <span
-                >{{ 
-                Math.ceil((new Date(trip.endDate).getTime() - new Date(trip.startDate).getTime()) / (1000 * 60 * 60 * 24))
-                }}
-                days</span -->
-              >
+              <span>Estimated Days:</span>
+              <span>{{ trip.days || "N/A" }}</span>
+            </div>
+            <div class="summary-item">
+              <span>Selected Hotel:</span>
+              <span>{{ getSelectedHotelName(trip) }}</span>
             </div>
             <div class="summary-item total">
-              <span>Estimated Total:</span>
-              <span>${{ calculateTripTotal(trip) }}</span>
+              <span>Estimated Total (Hotel):</span>
+              <span>{{ calculateTripTotal(trip) | currency }}</span>
             </div>
           </div>
         </div>
-
-        <div class="trip-actions">
-          <button class="btn btn-danger" (click)="removeTrip(trip.tripId)">
-            Remove Trip
-          </button>
-        </div>
       </div>
+    </div>
+
+    <div *ngIf="!isLoading && trips.length > 0" class="total-summary">
+      <h3>Total Trip Summary</h3>
+      <div class="summary-item">
+        <span>Total Estimated Days:</span>
+        <span>{{ calculateTotalDays() }}</span>
+      </div>
+      <div class="summary-item">
+        <span>Total Estimated Price (Hotels):</span>
+        <span>{{ calculateTotalPrice() | currency }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading && trips.length > 0" class="trip-confirmation">
+      <h3>Confirm Your Trip</h3>
+      <div class="confirmation-input">
+        <label for="start-date">Trip Start Date</label>
+        <input
+          type="date"
+          id="start-date"
+          [(ngModel)]="startDate"
+          [min]="startDate"
+          class="date-input"
+        />
+      </div>
+      <button
+        class="btn btn-primary"
+        (click)="analyzeTrip()"
+        [disabled]="isAnalyzing"
+      >
+        {{ isAnalyzing ? "Analyzing..." : "Confirm Trip" }}
+      </button>
     </div>
   </div>
 </div>

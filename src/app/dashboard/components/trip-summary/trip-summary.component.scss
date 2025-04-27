@@ -1,0 +1,553 @@
+$primary-color: #b38c55;
+$secondary-accent: #d4a373;
+$dark-color: #2a2a2a;
+$light-color: #f9f7f2;
+$border-color: #e6d0b3;
+
+@mixin card-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+@mixin transition {
+  transition: all 0.3s ease;
+}
+
+@mixin glow-effect {
+  box-shadow: 0 0 6px rgba($primary-color, 0.4);
+}
+
+.safarny-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: $dark-color;
+  background: $light-color;
+  padding-bottom: 2.5rem;
+}
+
+.header {
+  background-color: $light-color;
+  padding: 2rem 0;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid $border-color;
+
+  .heading-primary {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: $primary-color;
+    margin: 0;
+  }
+}
+
+.summary-container {
+  padding: 0 1.5rem;
+}
+
+.error-message {
+  padding: 1.5rem;
+  background-color: #fff6f6;
+  border: 1px solid #ffcccc;
+  border-radius: 8px;
+  text-align: center;
+  margin: 1.5rem 0;
+  @include card-shadow;
+
+  p {
+    color: #a94442;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .btn-primary {
+    background: $primary-color;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    @include transition;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+      @include glow-effect;
+    }
+  }
+}
+
+.success-message {
+  padding: 0.8rem;
+  background-color: #e6f4ea;
+  border: 1px solid #c3e6cb;
+  border-radius: 8px;
+  color: #155724;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid $light-color;
+    border-top: 4px solid $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  p {
+    margin-top: 0.8rem;
+    font-size: 1.1rem;
+    color: $dark-color;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.timeline {
+  position: relative;
+  padding: 2rem 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 25px;
+    width: 3px;
+    background: $primary-color;
+  }
+}
+
+.timeline-step {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 60px;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 18px;
+  top: 8px;
+  width: 18px;
+  height: 18px;
+  background: $primary-color;
+  border-radius: 50%;
+  border: 3px solid $light-color;
+  @include card-shadow;
+  @include transition;
+
+  &:hover {
+    transform: scale(1.15);
+  }
+}
+
+.timeline-content {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  @include card-shadow;
+  @include transition;
+  border: 1px solid $border-color;
+
+  &:hover {
+    transform: translateY(-2px);
+    @include glow-effect;
+  }
+
+  .content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+
+    .header-text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    h3 {
+      font-size: 1.4rem;
+      color: $primary-color;
+      margin: 0 0 0.8rem;
+      font-weight: 600;
+    }
+
+    .timeline-dates {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.9rem;
+      color: $dark-color;
+
+      p {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        strong {
+          color: $secondary-accent;
+        }
+
+        &:nth-child(4)::before,
+        &:nth-child(5)::before {
+          content: "\f072"; /* Font Awesome plane icon */
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          color: $primary-color;
+          font-size: 0.85rem;
+        }
+
+        &::before {
+          content: "\f073"; /* Font Awesome calendar icon */
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          color: $primary-color;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+
+  .timeline-details {
+    h4 {
+      font-size: 1rem;
+      color: $dark-color;
+      margin: 1rem 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      &:first-child::before {
+        content: "\f594"; /* Font Awesome hotel icon */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: $primary-color;
+        font-size: 0.9rem;
+      }
+
+      &:last-child::before {
+        content: "\f3c5"; /* Font Awesome map-pin icon */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: $primary-color;
+        font-size: 0.9rem;
+      }
+    }
+
+    p {
+      font-size: 0.9rem;
+      color: $dark-color;
+      margin: 0 0 0.5rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        font-size: 0.9rem;
+        color: $dark-color;
+        padding: 0.3rem 0;
+        position: relative;
+        padding-left: 1rem;
+
+        &::before {
+          content: "•";
+          position: absolute;
+          left: 0;
+          color: $secondary-accent;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+
+  .place-gallery {
+    flex: 0 0 376px; /* Fixed: 3 * 120px + 2 * 8px gap */
+    min-width: 376px;
+    text-align: center;
+
+    h4 {
+      font-size: 1rem;
+      color: $dark-color;
+      margin: 0 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+
+      &::before {
+        content: "\f03e"; /* Font Awesome image icon */
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        color: $primary-color;
+        font-size: 0.9rem;
+      }
+    }
+
+    .gallery-images {
+      display: grid;
+      grid-template-columns: repeat(3, 120px);
+      grid-gap: 8px;
+      justify-content: end;
+    }
+
+    .gallery-image {
+      width: 120px;
+      height: 120px;
+      overflow: hidden;
+      border-radius: 5px;
+      @include card-shadow;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        @include transition;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}
+
+.price-calculation {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  text-align: center;
+  @include card-shadow;
+  border: 1px solid $border-color;
+
+  h3 {
+    font-size: 1.4rem;
+    color: $primary-color;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .calculation-input {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    label {
+      font-size: 0.9rem;
+      color: $dark-color;
+      font-weight: 500;
+    }
+
+    .number-input {
+      padding: 0.5rem;
+      border: 1px solid $border-color;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      width: 100px;
+      color: $dark-color;
+      @include transition;
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+      }
+    }
+  }
+
+  .btn-primary {
+    background: $primary-color;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    @include transition;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+      @include glow-effect;
+    }
+
+    &[disabled] {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
+
+  .price-result {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background: $light-color;
+    border-radius: 5px;
+    border-left: 3px solid $primary-color;
+
+    p {
+      font-size: 0.95rem;
+      color: $dark-color;
+      margin: 0.4rem 0;
+
+      strong {
+        color: $secondary-accent;
+      }
+    }
+  }
+}
+
+.book-now {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  .btn-primary {
+    padding: 0.7rem 2rem; /* Slightly wider for prominence */
+    font-size: 1rem;
+  }
+}
+
+.footer-credits {
+  text-align: center;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  color: $dark-color;
+
+  p {
+    margin: 0.3rem 0;
+  }
+
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+    @include transition;
+
+    &:hover {
+      color: darken($primary-color, 10%);
+      text-decoration: none;
+    }
+
+    i {
+      margin-right: 0.3rem;
+      font-size: 1rem;
+      color: $primary-color;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1.5rem 0;
+
+    .heading-primary {
+      font-size: 2rem;
+    }
+  }
+
+  .timeline::before {
+    left: 20px;
+  }
+
+  .timeline-step {
+    padding-left: 50px;
+    margin-bottom: 1.5rem;
+  }
+
+  .timeline-dot {
+    left: 14px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .timeline-content {
+    border-radius: 6px;
+    padding: 1.2rem;
+    flex-direction: column; /* Stack content on mobile */
+
+    .content-header {
+      flex-direction: column;
+      align-items: stretch;
+
+      .header-text {
+        min-width: 100%;
+      }
+
+      .place-gallery {
+        flex: 1;
+        min-width: 100%;
+        margin-top: 1rem;
+
+        .gallery-image {
+          width: 80px;
+          height: 80px;
+        }
+      }
+    }
+
+    .timeline-dates {
+      flex-direction: column;
+      gap: 0.5rem;
+
+      p {
+        &:nth-child(4)::before,
+        &:nth-child(5)::before {
+          content: "\f072"; /* Font Awesome plane icon */
+          font-family: "Font Awesome 5 Free";
+          font-weight: 900;
+          color: $primary-color;
+          font-size: 0.85rem;
+        }
+      }
+    }
+  }
+
+  .price-calculation {
+    padding: 1.2rem;
+    border-radius: 6px;
+  }
+
+  .book-now {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+
+    .btn-primary {
+      padding: 0.6rem 1.5rem;
+      font-size: 0.9rem;
+    }
+  }
+
+  .footer-credits {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+
+    a {
+      i {
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  .btn-primary {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}

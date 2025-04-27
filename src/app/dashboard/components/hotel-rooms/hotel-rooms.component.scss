@@ -194,3 +194,25 @@
     transform: translateY(0);
   }
 }
+
+/* Add to hotel-rooms.component.scss */
+.search-container {
+  margin-bottom: 20px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+
+  .form-control {
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #b38c55;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-control:focus {
+    border-color: #b38c55;
+    box-shadow: 0 0 8px rgba(179, 140, 85, 0.3);
+    outline: none;
+  }
+}

@@ -46,7 +46,7 @@
 
       <!-- Price Range -->
       <div class="filter-section">
-        <h3>Price</h3>
+        <!-- <h3>Price</h3>
         <div class="price-inputs">
           <div class="price-field">
             <label for="min-price">Min price</label>
@@ -66,13 +66,13 @@
               class="price-input"
             />
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Trip Dates -->
       <div class="filter-section">
-        <h3>Trip Dates</h3>
-        <div class="date-inputs">
+        <!-- <h3>Trip Dates</h3>
+         <div class="date-inputs">  
           <div class="date-field">
             <label for="start-date">Start Date</label>
             <input
@@ -91,7 +91,7 @@
               class="date-input"
             />
           </div>
-        </div>
+        </div>  -->
       </div>
 
       <!-- Rating -->
@@ -147,7 +147,7 @@
 
       <!-- End of trip -->
       <div class="filter-section">
-        <h3>End of trip at</h3>
+        <!-- <h3>End of trip at</h3>
         <div class="checkbox-group">
           <div *ngFor="let city of cities" class="checkbox-item">
             <input
@@ -159,22 +159,24 @@
             />
             <label [for]="'end-' + city.id">{{ city.name }}</label>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- Action buttons -->
-      <div class="filter-actions">
-        <button class="btn btn-primary" (click)="filterResults()">
-          FIND TRIPS
+      <div class="filter-actions mb-5">
+        <button
+          class="btn btn-primary"
+          (click)="addSelectedToCart()"
+          [disabled]="selectedPlaces.length === 0"
+        >
+          ADD SELECTED TO CART
         </button>
-
         <button
           [routerLink]="['../view-trips', userId]"
           class="btn btn-secondary"
         >
-          VIEW YOUR TRIPS
+          VIEW YOUR TRIP
         </button>
-
         <button class="btn btn-outline-secondary" (click)="clearAllFilters()">
           CLEAR FILTERS
         </button>
@@ -199,14 +201,13 @@
               <h4>{{ place.name }}</h4>
               <div class="location">{{ getCityNameById(place.cityId) }}</div>
               <div class="price">From: ${{ place.price }} per person</div>
-              <button class="add-to-cart" (click)="addToCart(place)">
-                <span *ngIf="!isInCart(place)"
-                  >Add To Your Cart <i class="fas fa-arrow-right"></i
-                ></span>
-                <span *ngIf="isInCart(place)"
-                  >Remove From Cart <i class="fas fa-times"></i
-                ></span>
-              </button>
+              <input
+                type="checkbox"
+                [id]="'place-' + place.id"
+                [checked]="place.selected"
+                (change)="togglePlaceSelection(place); $event.stopPropagation()"
+              />
+              <label [for]="'place-' + place.id">Select</label>
             </div>
           </div>
         </div>
@@ -244,75 +245,10 @@
           No activities found matching your criteria
         </div>
       </section>
-
-      <!-- Hotels section -->
-      <section class="hotels-section">
-        <h2>Hotels To Stay In</h2>
-
-        <div class="cards-grid">
-          <div
-            *ngFor="let hotel of paginatedHotels"
-            class="card"
-            [class.selected]="searchForm.get('hotelId')?.value === hotel.id"
-          >
-            <div class="card-image">
-              <img [src]="hotel.image" [alt]="hotel.name" />
-              <button class="favorite-btn">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="card-content">
-              <h4>{{ hotel.name }}</h4>
-              <div class="location">{{ hotel.city }}</div>
-              <div class="price">
-                From: ${{ hotel.pricePerNight }} per person/night
-              </div>
-              <div class="rating">Rating: {{ hotel.rating }}</div>
-              <button class="book-now-btn" (click)="selectHotel(hotel)">
-                {{
-                  searchForm.get("hotelId")?.value === hotel.id
-                    ? "Selected for Trip"
-                    : "Select for Trip"
-                }}
-                <i class="fas fa-arrow-right"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Pagination controls for hotels -->
-        <div class="pagination" *ngIf="filteredHotels.length > itemsPerPage">
-          <button
-            class="page-btn prev"
-            (click)="changePage(currentHotelPage - 1, 'hotel')"
-            [disabled]="currentHotelPage === 1"
-          >
-            <i class="fas fa-chevron-left"></i>
-          </button>
-
-          <button
-            *ngFor="let page of getPageNumbers('hotel')"
-            class="page-btn"
-            [class.active]="currentHotelPage === page"
-            (click)="changePage(page, 'hotel')"
-          >
-            {{ page }}
-          </button>
-
-          <button
-            class="page-btn next"
-            (click)="changePage(currentHotelPage + 1, 'hotel')"
-            [disabled]="currentHotelPage === totalHotelPages"
-          >
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-
-        <!-- No results message -->
-        <div *ngIf="filteredHotels.length === 0" class="no-results">
-          No hotels found matching your criteria
-        </div>
-      </section>
     </main>
+  </div>
+  <!-- Add success message -->
+  <div *ngIf="cartSuccessMessage" class="success-message">
+    {{ cartSuccessMessage }}
   </div>
 </div>

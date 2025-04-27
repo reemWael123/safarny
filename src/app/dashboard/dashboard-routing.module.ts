@@ -15,6 +15,10 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 
 import { ViewTripsComponent } from './components/view-trips/view-trips.component';
 import { HotelRoomsComponent } from './components/hotel-rooms/hotel-rooms.component';
+import { BookingConfirmationComponent } from './components/booking-confirmation/booking-confirmation.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
+import { TripSummaryComponent } from './components/trip-summary/trip-summary.component';
 
 const routes: Routes = [
   {
@@ -29,9 +33,19 @@ const routes: Routes = [
       { path: 'home/cities', component: CitiesPageComponent },
       { path: 'home/PRH/:id', component: PlacesResturantsHotelsComponent },
       { path: 'home/hotel-rooms/:hotelId', component: HotelRoomsComponent },
+      { path: 'home/hotel-details/:hotelId', component: HotelDetailsComponent },
+      {
+        path: 'home/booking-confirmation/:bookingId',
+        component: BookingConfirmationComponent,
+      },
+      {
+        path: 'home/payment-success/:hotelId',
+        component: PaymentSuccessComponent,
+      },
       { path: 'home/outdoor-sports', component: SportsPageComponent },
       { path: 'home/trip-search', component: TripSearchComponent },
       { path: 'home/view-trips/:userid', component: ViewTripsComponent },
+      { path: 'home/trip-summary', component: TripSummaryComponent },
 
       { path: 'home/details/:id', component: DetailsComponent },
       { path: 'home/packeges', component: PackegesComponent },

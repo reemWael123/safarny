@@ -1,20 +1,24 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class InterceptorNameInterceptor implements HttpInterceptor {
-  constructor(private _spinner:NgxSpinnerService) {}
+  constructor(@Inject(NgxSpinnerService) private _spinner: NgxSpinnerService) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-  
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     this._spinner.show();
 
     return next.handle(request).pipe(
@@ -22,4 +26,5 @@ export class InterceptorNameInterceptor implements HttpInterceptor {
         this._spinner.hide();
       })
     );
-  }}
+  }
+}
