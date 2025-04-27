@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
@@ -133,4 +133,16 @@ export class GeneralService {
       { params }
     );
   }
+  TrackUserInteraction(username: any, placeid: any): Observable<any> {
+    const url = `http://safarny.runasp.net/api/Recommendation/TrackUserInteraction?username=${username}&touristPlaceId=${placeid}`;
+  
+    return this._httpclinet.post(url, null); // أو استخدمي {} بدل null
+  }
+  chatbot(question: any, ): Observable<any> {
+    
+  
+    return this._httpclinet.post('http://safarny.runasp.net/api/Search/ChatWithAI', question);
+  }
+  
+  
 }

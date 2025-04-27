@@ -4,7 +4,7 @@ import { WelcomeComponent } from './dashboard/components/welcome/welcome.compone
 import { StteperComponent } from './dashboard/components/stteper/stteper.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard/home', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),

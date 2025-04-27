@@ -36,6 +36,8 @@ import { TripSearchComponent } from './components/trip-search/trip-search.compon
 import { ViewTripsComponent } from './components/view-trips/view-trips.component';
 import { HotelRoomsComponent } from './components/hotel-rooms/hotel-rooms.component';
 import { BookingModalComponent } from './components/booking-modal/booking-modal.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -58,8 +60,10 @@ import { BookingModalComponent } from './components/booking-modal/booking-modal.
     ViewTripsComponent,
     HotelRoomsComponent,
     BookingModalComponent,
+    ChatbotComponent,
   ],
   imports: [
+   
     CommonModule,
     RouterLink,
     RouterModule,
@@ -73,6 +77,8 @@ import { BookingModalComponent } from './components/booking-modal/booking-modal.
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
+    
   ],
 })
 export class DashboardModule {}
