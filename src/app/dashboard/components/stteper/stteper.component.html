@@ -1,8 +1,8 @@
-<section class="stepper  ">
+<section class="stepper  d-flex align-items-center ">
     .
-    <div class="card rounded-4 my-4 w-75 m-auto  ">
-         <mat-stepper> 
-            <mat-step label="Step 1" state="chat">
+    <div class="card  my-4 w-75 m-auto  ">
+         <mat-stepper > 
+            <mat-step label="torism type" state="chat">
                 <div class="text-center mt-2"> 
                     <img src="../../../../assets/images/Frame 2.png">
                 </div>
@@ -41,24 +41,27 @@
                 </div>
                 <div>
                   
-                  <button mat-button matStepperNext >Next</button>
+                  <button mat-button matStepperNext  class="next-btn">Next</button>
                 </div>
               </mat-step>
       
             
-            <mat-step label="Step 2" state="chat">
-                <div class=" m-2"> 
+              <mat-step label="Duration" state="chat">
+                <div class="step-content">
+                  <div class="m-2">
                     <img src="../../../../assets/images/How long do you plan to stay in Egypt_.png">
-                    
-                </div>
-                <input  type="number" class="w-75 rounded  " [(ngModel)]="duration"  [min]="1" [max]="10">
-                <div>
-                  <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button matStepperNext>Next</button>
+                  </div>
+                  <input type="number" class="w-75 rounded mt-5" [(ngModel)]="duration" [min]="1" [max]="10">
+                  <div class="buttons-container">
+                    <button mat-button class="back-btn" matStepperPrevious>BACK</button>
+                    <button mat-button class="next-btn" matStepperNext>NEXT</button>
+                  </div>
                 </div>
               </mat-step>
-              <mat-step label="Step 3" state="chat">
-                <div class=" mt-2"> 
+              
+              <mat-step label="Budget" state="chat">
+                <div class="step-content">
+                  <div class=" m-2"> 
                     <img src="../../../../assets/images/What is your budget for the trip_.png">
                     
                 </div>
@@ -68,19 +71,28 @@
                 <div>
                 </div>
                 
-                <div>
-                  <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button matStepperPrevious (click)="submitSelection()">finsh</button>
+                <div class="buttons-container">
+                  <button mat-button matStepperPrevious class="back-btn">Back</button>
+                  <button mat-button matStepperPrevious class="next-btn" (click)="openConfirmDialog()">Finish</button>
                 </div>
+                
+                </div>
+              
               </mat-step>
            
             Icon overrides.
-            <ng-template matStepperIcon="phone">
-              <mat-icon>call_end</mat-icon>
+            <ng-template matStepperIcon="edit">
+              <mat-icon>check</mat-icon>
             </ng-template>
-            <ng-template matStepperIcon="chat">
-              <mat-icon>forum</mat-icon>
+            
+            <ng-template matStepperIcon="done">
+              <mat-icon>check</mat-icon>
             </ng-template>
+            
+            <ng-template matStepperIcon="number">
+              <mat-icon>check</mat-icon>
+            </ng-template>
+            
           </mat-stepper> 
     </div>
   

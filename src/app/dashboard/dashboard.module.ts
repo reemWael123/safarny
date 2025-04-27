@@ -36,9 +36,11 @@ import { TripSearchComponent } from './components/trip-search/trip-search.compon
 import { ViewTripsComponent } from './components/view-trips/view-trips.component';
 import { HotelRoomsComponent } from './components/hotel-rooms/hotel-rooms.component';
 import { BookingModalComponent } from './components/booking-modal/booking-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BookingConfirmationComponent } from './components/booking-confirmation/booking-confirmation.component';
-import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { TripSummaryComponent } from './components/trip-summary/trip-summary.component';
 import { UniquePlacesPipe } from './pipes/unique-places.pipe';
 
@@ -63,6 +65,7 @@ import { UniquePlacesPipe } from './pipes/unique-places.pipe';
     ViewTripsComponent,
     HotelRoomsComponent,
     BookingModalComponent,
+    ChatbotComponent,
     BookingConfirmationComponent,
     PaymentSuccessComponent,
     HotelDetailsComponent,
@@ -83,6 +86,7 @@ import { UniquePlacesPipe } from './pipes/unique-places.pipe';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatDialogModule,
   ],
 })
 export class DashboardModule {}

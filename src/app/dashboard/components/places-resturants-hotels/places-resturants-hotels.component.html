@@ -48,7 +48,7 @@
         />
         <div class="card-body">
           <h5 class="card-title">{{ item.name }}</h5>
-          <a [routerLink]="['/PRH', item.id]" class="btn btn-primary"
+          <a [routerLink]="['/PRH', item.id]" class="btn btn-primary" (click)="storePlaceId(item.id)"
             >Read more</a
           >
         </div>
@@ -104,33 +104,7 @@
         <div class="card">
           <h4 class="text-center">Choose Your Preferences</h4>
           <div class="row">
-            <!-- <div class="col-md-3">
-                        
-                        <div class="mb-3">
-                            <label class="form-label"><strong>Dining Options:</strong></label><br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="diningOptions" [(ngModel)]="diningOptions" value="Dine-in">
-                                <label class="form-check-label">Dine-in</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="diningOptions" [(ngModel)]="diningOptions" value="Takeaway">
-                                <label class="form-check-label">Takeaway</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="diningOptions" [(ngModel)]="diningOptions" value="Delivery">
-                                <label class="form-check-label">Delivery</label>
-                            </div>
-                        </div>
-                    </div>
-                     -->
-
-            <!-- <div class="col-md-3"> 
-                      
-                        <div class="mb-3">
-                            <label class="form-label"><strong>Rate (1-10):</strong></label>
-                            <input type="number" class="form-control" min="1" max="10" placeholder="Enter rating"  [(ngModel)]="rate">
-                        </div>
-                    </div> -->
+         
             <div class="col-md-6">
               <!-- Type -->
               <div class="mb-3">
@@ -199,24 +173,7 @@
               </div>
             </div>
 
-            <!-- <div class="col-md-3">
-                        
-                        <div class="mb-3">
-                            <label class="form-label"><strong>Price Range:</strong></label><br>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priceRange" [(ngModel)]="priceRange" value="Low">
-                                <label class="form-check-label">Low</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priceRange" [(ngModel)]="priceRange" value="Medium">
-                                <label class="form-check-label">Medium</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="priceRange" [(ngModel)]="priceRange" value="High">
-                                <label class="form-check-label">High</label>
-                            </div>
-                        </div>
-                    </div> -->
+            
 
             <div class="col-md-6">
               <!-- Meal Time -->

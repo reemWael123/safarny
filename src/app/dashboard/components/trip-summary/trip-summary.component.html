@@ -137,6 +137,19 @@
           Book Now
         </button>
       </div>
+
+      <!-- Footer Credits -->
+      <div *ngIf="!isLoading && tripCities.length > 0" class="footer-credits">
+        <p>Provided by Memphis Tours</p>
+        <p>
+          <a
+            href="https://www.facebook.com/MemphisTours"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><i class="fab fa-facebook-square"></i> Facebook Page</a
+          >
+        </p>
+      </div>
     </div>
   </div>
 </div>
