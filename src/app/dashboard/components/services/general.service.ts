@@ -147,7 +147,7 @@ export class GeneralService {
 
   payment(bookingId: any): Observable<any> {
     return this._httpclinet.post(
-      'http://safarny.runasp.net/api/payments/pay',
+      'http://safarny.runasp.net/api/package-payments/pay',
       bookingId
     );
   }
@@ -190,5 +190,9 @@ export class GeneralService {
     return this._httpclinet.post('http://safarny.runasp.net/api/Search/ChatWithAI', body, { headers });
   }
   
-  
+   getProfile(id: any): Observable<any> {
+    return this._httpclinet.get(
+      `http://safarny.runasp.net/api/profile/user-profile/${id}`
+    );
+  }
 }
