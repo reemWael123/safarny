@@ -85,6 +85,7 @@ this._generalservice.createBooking(bookingData).subscribe({
       this.responseMessage = 'Booking successful!';
      this.bookingid=response.bookingId
       console.log(response.bookingId)
+      
       this.payment(this.bookingid)
     },
     error: (error) => {
@@ -92,9 +93,10 @@ this._generalservice.createBooking(bookingData).subscribe({
     }
   });
 }
-payment(bookingid:number){
+payment(bookingid:any){
   const bookingId={
-    bookingId:bookingid
+    bookingId:this.bookingid,
+  
   }
 
   this._generalservice.payment(bookingId).subscribe({

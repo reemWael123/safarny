@@ -43,6 +43,7 @@ import { HotelDetailsComponent } from './components/hotel-details/hotel-details.
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { TripSummaryComponent } from './components/trip-summary/trip-summary.component';
 import { UniquePlacesPipe } from './pipes/unique-places.pipe';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { UniquePlacesPipe } from './pipes/unique-places.pipe';
     HotelDetailsComponent,
     TripSummaryComponent,
     UniquePlacesPipe,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
