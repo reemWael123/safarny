@@ -86,7 +86,6 @@
                 <img
                   [src]="place.pictureUrl || placeholderImage"
                   [alt]="place.placeName"
-                  [title]="place.pictureUrl ? place.pictureUrl : 'Placeholder'"
                   (error)="handleImageError($event, place.placeName)"
                 />
               </div>
@@ -131,12 +130,22 @@
       <div *ngIf="!isLoading && tripCities.length > 0" class="book-now">
         <button
           class="btn btn-primary"
-          (click)="bookNow()"
-          [disabled]="isLoading || isCalculating"
+          (click)="bookTripAndOpenModal()"
+          [disabled]="isLoading || isCalculating || !tripPrice"
+          aria-label="Book trip"
         >
           Book Now
         </button>
       </div>
+
+      <!-- Booking Modal -->
+      <app-booking-trip-modal
+        *ngIf="showBookingModal"
+        [userId]="userId"
+        [bookingId]="currentBookingId"
+        (close)="closeBookingModal()"
+        (bookingComplete)="handleBookingComplete($event)"
+      ></app-booking-trip-modal>
 
       <!-- Footer Credits -->
       <div *ngIf="!isLoading && tripCities.length > 0" class="footer-credits">

@@ -1,15 +1,43 @@
 <div class="chat-container">
-    <div class="messages">
-      <div *ngFor="let message of messages">
-        <div [ngClass]="{'user-message': message.sender === 'user', 'bot-message': message.sender === 'bot'}">
-          <span>{{ message.text }}</span>
-        </div>
+  <div class="messages" role="log" aria-live="polite" #messagesContainer>
+    <div *ngIf="isLoading" class="loading">Loading...</div>
+    <div *ngFor="let message of messages">
+      <div
+        [ngClass]="{
+          'user-message': message.sender === 'user',
+          'bot-message': message.sender === 'bot',
+          ltr: message.isEnglish
+        }"
+      >
+        <span *ngIf="message.sender === 'user'" class="message-text">{{
+          message.text
+        }}</span>
+        <span
+          *ngIf="message.sender === 'bot' && message.safeHtml"
+          [innerHTML]="message.safeHtml"
+          class="message-text"
+        ></span>
+        <span
+          *ngIf="message.sender === 'bot' && !message.safeHtml"
+          class="message-text"
+          >{{ message.text }}</span
+        >
       </div>
     </div>
-  
-    <div class="input-container">
-      <input [(ngModel)]="userInput" (keydown.enter)="sendMessage()" placeholder="write yuor message.. ." />
-      <button (click)="sendMessage()">➤</button>
-    </div>
   </div>
-  
+  <div class="input-container">
+    <input
+      [(ngModel)]="userInput"
+      (keydown.enter)="sendMessage()"
+      placeholder="Write your message..."
+      [disabled]="isLoading"
+    />
+    <button
+      (click)="sendMessage()"
+      aria-label="Send message"
+      [disabled]="isLoading"
+    >
+      ➤
+    </button>
+  </div>
+</div>

@@ -1,11 +1,36 @@
 <header class="header">
   <div class="header__img">
-    <img src="assets/images/trips.jpg" alt="" />
+    <img src="assets/images/trips.jpg" alt="Travel destination landscape" />
     <h1 class="heading-primary mb-5">Your Trips</h1>
   </div>
 </header>
 <div class="safarny-container">
   <div class="trips-container">
+    <!-- Hotel inclusion question -->
+    <div class="hotel-question">
+      <h3>Would you like to include hotels in your trip?</h3>
+      <div class="radio-group">
+        <label>
+          <input
+            type="radio"
+            [(ngModel)]="includeHotels"
+            [value]="true"
+            (change)="onHotelInclusionChange()"
+          />
+          Yes
+        </label>
+        <label>
+          <input
+            type="radio"
+            [(ngModel)]="includeHotels"
+            [value]="false"
+            (change)="onHotelInclusionChange()"
+          />
+          No
+        </label>
+      </div>
+    </div>
+
     <!-- Success message -->
     <div *ngIf="successMessage" class="success-message">
       {{ successMessage }}
@@ -63,13 +88,14 @@
             </div>
 
             <!-- Hotels -->
-            <div class="trip-hotels">
+            <div *ngIf="includeHotels" class="trip-hotels">
               <h4>Hotels</h4>
-              <div class="hotels-list">
+              <div class="hotels-list-scrollable">
                 <div
-                  *ngFor="let hotel of trip.hotels"
+                  *ngFor="let hotel of getDisplayedHotels(trip); let i = index"
                   class="hotel-item"
                   [class.selected]="hotel.selected"
+                  [class.recommended]="i < 3"
                   (click)="$event.stopPropagation()"
                 >
                   <div class="hotel-info">
@@ -101,6 +127,13 @@
                   </div>
                 </div>
               </div>
+              <button
+                *ngIf="!trip.showAllHotels && trip.hotels.length > 3"
+                class="btn btn-secondary view-more-hotels"
+                (click)="toggleShowAllHotels(trip)"
+              >
+                View More Hotels
+              </button>
             </div>
           </div>
 

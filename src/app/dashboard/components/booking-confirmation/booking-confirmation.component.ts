@@ -74,8 +74,7 @@ export class BookingConfirmationComponent implements OnInit {
     this.paymentError = '';
 
     const paymentData: PaymentRequest = {
-      bookingId: this.bookingDetails.bookingId,
-      bookingType: 'Hotel',
+      bookingId: +this.bookingDetails.bookingId,
     };
 
     this.bookingService.processPayment(paymentData).subscribe({
@@ -83,11 +82,16 @@ export class BookingConfirmationComponent implements OnInit {
         this.paymentProcessing = false;
         this.paymentSuccess = true;
         // Redirect to payment success page after delay
+        // setTimeout(() => {
+        //   this.router.navigate([
+        //     '/dashboard/home/payment-success',
+        //     this.bookingDetails?.hotelId,
+        //   ]);
+        // }, 2000);
+
+        console.log('Payment response:', response);
         setTimeout(() => {
-          this.router.navigate([
-            '/dashboard/home/payment-success',
-            this.bookingDetails?.hotelId,
-          ]);
+          window.open(response.paymentUrl, '_blank');
         }, 2000);
       },
       error: (error) => {
