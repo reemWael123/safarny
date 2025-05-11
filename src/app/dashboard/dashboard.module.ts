@@ -43,6 +43,7 @@ import { HotelDetailsComponent } from './components/hotel-details/hotel-details.
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { TripSummaryComponent } from './components/trip-summary/trip-summary.component';
 import { UniquePlacesPipe } from './pipes/unique-places.pipe';
+import { ProfileComponent } from './components/profile/profile.component';
 import { BookingTripModalComponent } from './components/booking-trip-modal/booking-trip-modal.component';
 
 @NgModule({
@@ -72,7 +73,7 @@ import { BookingTripModalComponent } from './components/booking-trip-modal/booki
     HotelDetailsComponent,
     TripSummaryComponent,
     UniquePlacesPipe,
-    BookingModalComponent,
+    ProfileComponent,
     BookingTripModalComponent,
   ],
   imports: [
