@@ -1,20 +1,35 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TripSearchService } from 'src/app/services/trip-search.service';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
+
+interface Place {
+  placeId: any;
+  id: number;
+  name: string;
+  description: string;
+  pictureUrl: string;
+  cityId: number;
+  category: string;
+  tripPlaces: any[];
+  price: number;
+}
+
+interface Hotel {
+  hotelId: number;
+  hotelName: string;
+  rating: number;
+  pricePerNight: number;
+  selected?: boolean;
+}
 
 interface Trip {
   cityName: string;
   places: { placeId: number; placeName: string; pictureUrl?: string }[];
-  hotels: {
-    hotelId: number;
-    hotelName: string;
-    rating: number;
-    pricePerNight: number;
-    selected?: boolean;
-  }[];
-  days?: number; // Add days property
+  hotels: Hotel[];
+  days?: number;
+  showAllHotels?: boolean;
 }
 
 @Component({
@@ -36,9 +51,9 @@ export class ViewTripsComponent implements OnInit {
     days: number;
   }[] = [];
   hotelLoading: Set<number> = new Set();
-
+  includeHotels: boolean = false; // Default to showing hotels
   startDate: string = new Date().toISOString().split('T')[0]; // Default to today
-  isAnalyzing: boolean = false; // Track API loading state
+  isAnalyzing: boolean = false;
 
   constructor(
     private tripService: TripSearchService,
@@ -55,19 +70,15 @@ export class ViewTripsComponent implements OnInit {
     });
   }
 
-  // Update loadCitiesAndTrips
   loadCitiesAndTrips(): void {
     this.isLoading = true;
     this.error = null;
 
     this.tripService.getCities().subscribe({
       next: (cities) => {
-        console.log('Cities:', cities);
         this.cities = cities;
-        // Fetch trip days
         this.tripService.getTripDays(this.userId).subscribe({
           next: (tripDays) => {
-            console.log('Trip Days:', tripDays);
             this.tripDays = tripDays;
             this.loadTrips();
           },
@@ -89,7 +100,6 @@ export class ViewTripsComponent implements OnInit {
   loadTrips(): void {
     this.tripService.getUserTrips(this.userId).subscribe({
       next: (trips) => {
-        console.log('Trips:', trips);
         const dedupedTrips = trips.map((trip) => ({
           ...trip,
           places: [...new Map(trip.places.map((p) => [p.placeId, p])).values()],
@@ -98,46 +108,80 @@ export class ViewTripsComponent implements OnInit {
             this.tripDays.find(
               (td) => td.cityName.toLowerCase() === trip.cityName.toLowerCase()
             )?.days || 0,
+          showAllHotels: false, // Initialize to show only recommended hotels
         }));
 
-        const placeRequests = dedupedTrips.map((trip) => {
-          const city = this.cities.find(
-            (c) => c.name.toLowerCase() === trip.cityName.toLowerCase()
-          );
-          if (!city) {
-            console.warn(
-              `City not found for ${trip.cityName}, using placeholder`
+        const placeRequests: Observable<Place[]>[] = dedupedTrips.map(
+          (trip) => {
+            const city = this.cities.find(
+              (c) => c.name.toLowerCase() === trip.cityName.toLowerCase()
             );
-            return of([]);
+            if (!city) {
+              console.warn(
+                `City not found for ${trip.cityName}, using placeholder`
+              );
+              return of([]);
+            }
+            return this.tripService.getPlaces(city.id);
           }
-          console.log(`Fetching places for cityId: ${city.id}`);
-          return this.tripService.getPlaces(city.id);
-        });
+        );
 
-        forkJoin(placeRequests).subscribe({
-          next: (allPlacesByCity) => {
-            this.trips = dedupedTrips.map((trip, index) => ({
-              ...trip,
-              places: trip.places.map((place) => ({
-                ...place,
-                pictureUrl: allPlacesByCity[index].find(
-                  (p) => p.id === place.placeId
-                )?.pictureUrl
-                  ? `${
-                      allPlacesByCity[index].find((p) => p.id === place.placeId)
-                        ?.pictureUrl
-                    }`
-                  : 'https://via.placeholder.com/150',
-              })),
-            }));
-            console.log('Mapped Trips with Images:', this.trips);
+        const hotelRequests: Observable<Hotel[]>[] = dedupedTrips.map(
+          (trip) => {
+            const city = this.cities.find(
+              (c) => c.name.toLowerCase() === trip.cityName.toLowerCase()
+            );
+            if (!city) {
+              console.warn(
+                `City not found for ${trip.cityName}, skipping hotels`
+              );
+              return of([]);
+            }
+            return this.tripService.getAllHotels(city.id);
+          }
+        );
+
+        forkJoin({
+          places: forkJoin(placeRequests),
+          hotels: forkJoin(hotelRequests),
+        }).subscribe({
+          next: ({ places: allPlacesByCity, hotels: allHotelsByCity }) => {
+            this.trips = dedupedTrips.map((trip, index) => {
+              const city = this.cities.find(
+                (c) => c.name.toLowerCase() === trip.cityName.toLowerCase()
+              );
+              const additionalHotels = city
+                ? allHotelsByCity[index].map((hotel) => ({
+                    ...hotel,
+                    selected: false,
+                  }))
+                : [];
+
+              const existingHotelIds = new Set(
+                trip.hotels.map((h) => h.hotelId)
+              );
+              const uniqueAdditionalHotels = additionalHotels.filter(
+                (hotel) => !existingHotelIds.has(hotel.hotelId)
+              );
+
+              return {
+                ...trip,
+                places: trip.places.map((place) => ({
+                  ...place,
+                  pictureUrl:
+                    allPlacesByCity[index].find((p) => p.id === place.placeId)
+                      ?.pictureUrl || 'assets/images/trips.jpg',
+                })),
+                hotels: [...trip.hotels, ...uniqueAdditionalHotels],
+              };
+            });
             this.isLoading = false;
             this.cdr.detectChanges();
           },
           error: (err) => {
-            console.error('Error loading place details:', err);
+            console.error('Error loading place or hotel details:', err);
             this.error =
-              'Failed to load place images. Displaying trips with placeholders.';
+              'Failed to load place images or additional hotels. Displaying trips with placeholders.';
             this.trips = dedupedTrips.map((trip) => ({
               ...trip,
               places: trip.places.map((place) => ({
@@ -160,19 +204,12 @@ export class ViewTripsComponent implements OnInit {
   }
 
   toggleHotelSelection(trip: Trip, hotel: Trip['hotels'][0]): void {
-    console.log(
-      'Toggle hotel:',
-      hotel.hotelId,
-      'Current state:',
-      hotel.selected
-    );
     const previousState = hotel.selected;
     this.hotelLoading.add(hotel.hotelId);
     this.cdr.detectChanges();
 
-    // Deselect all other hotels in this trip
     trip.hotels.forEach((h) => (h.selected = false));
-    hotel.selected = !previousState; // Toggle the selected hotel
+    hotel.selected = !previousState;
 
     const city = this.cities.find(
       (c) => c.name.toLowerCase() === trip.cityName.toLowerCase()
@@ -182,20 +219,17 @@ export class ViewTripsComponent implements OnInit {
       this.error = 'Failed to select hotel. City not found.';
       hotel.selected = false;
       this.hotelLoading.delete(hotel.hotelId);
-      trip.hotels.forEach((h) => (h.selected = false)); // Reset on error
+      trip.hotels.forEach((h) => (h.selected = false));
       this.cdr.detectChanges();
       return;
     }
 
-    // Send only the selected hotel (or none if deselected)
     const payload = hotel.selected
       ? [{ userId: this.userId, cityId: city.id, hotelId: hotel.hotelId }]
       : [];
 
-    console.log('Hotel Selection Payload:', payload);
     this.tripService.chooseHotels(payload).subscribe({
       next: (response) => {
-        console.log('Hotel selected:', response);
         this.successMessage = 'Hotel selection updated successfully!';
         this.hotelLoading.delete(hotel.hotelId);
         setTimeout(() => (this.successMessage = null), 3000);
@@ -206,7 +240,7 @@ export class ViewTripsComponent implements OnInit {
         this.error = 'Failed to select hotel. Please try again.';
         hotel.selected = false;
         this.hotelLoading.delete(hotel.hotelId);
-        trip.hotels.forEach((h) => (h.selected = false)); // Reset on error
+        trip.hotels.forEach((h) => (h.selected = false));
         setTimeout(() => (this.error = null), 3000);
         this.cdr.detectChanges();
       },
@@ -218,7 +252,6 @@ export class ViewTripsComponent implements OnInit {
     return selectedHotel ? selectedHotel.pricePerNight : 0;
   }
 
-  // Add methods for total calculations
   calculateTotalDays(): number {
     return this.trips.reduce((sum, trip) => sum + (trip.days || 0), 0);
   }
@@ -232,12 +265,12 @@ export class ViewTripsComponent implements OnInit {
 
   handleImageError(event: Event): void {
     const img = event.target as HTMLImageElement;
-    img.src = 'assets/images/trips.jpg'; // Use public placeholder for reliability
+    img.src = 'assets/images/trips.jpg';
     console.warn('Image failed to load, using placeholder:', img.src);
   }
 
-  getSelectedHotelName(trip: any): string {
-    const selectedHotel = trip.hotels?.find((h: any) => h.selected);
+  getSelectedHotelName(trip: Trip): string {
+    const selectedHotel = trip.hotels?.find((h) => h.selected);
     return selectedHotel ? selectedHotel.hotelName : 'None';
   }
 
@@ -245,13 +278,48 @@ export class ViewTripsComponent implements OnInit {
     return trip.hotels.some((hotel) => hotel.selected) ? 1 : 0;
   }
 
-  // Add analyzeTrip method
+  getDisplayedHotels(trip: Trip): Hotel[] {
+    return trip.showAllHotels ? trip.hotels : trip.hotels.slice(0, 3);
+  }
+
+  toggleShowAllHotels(trip: Trip): void {
+    trip.showAllHotels = !trip.showAllHotels;
+    this.cdr.detectChanges();
+  }
+
+  onHotelInclusionChange(): void {
+    if (!this.includeHotels) {
+      this.trips.forEach((trip) => {
+        trip.hotels.forEach((hotel) => (hotel.selected = false));
+        trip.showAllHotels = false;
+      });
+      this.tripService.chooseHotels([]).subscribe({
+        next: () => {
+          this.successMessage = 'Hotel selections cleared.';
+          setTimeout(() => (this.successMessage = null), 3000);
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error clearing hotel selections:', err);
+          this.error = 'Failed to clear hotel selections.';
+          setTimeout(() => (this.error = null), 3000);
+          this.cdr.detectChanges();
+        },
+      });
+    }
+    this.cdr.detectChanges();
+  }
+
   analyzeTrip(): void {
     if (!this.startDate) {
       this.error = 'Please select a start date.';
       setTimeout(() => (this.error = null), 3000);
       return;
     }
+
+    this.includeHotels = this.trips.some((trip) =>
+      trip.hotels.some((hotel) => hotel.selected)
+    );
 
     this.isAnalyzing = true;
     this.error = null;
@@ -260,20 +328,22 @@ export class ViewTripsComponent implements OnInit {
     const payload = {
       userId: this.userId,
       startDate: new Date(this.startDate).toISOString(),
+      wantHotelBooking: this.includeHotels,
     };
 
-    console.log('Analyze Trip Payload:', payload);
     this.tripService.analyzeTrip(payload).subscribe({
       next: (response) => {
-        console.log('Trip analysis response:', response);
         this.successMessage =
           'Trip analysis completed! Redirecting to summary...';
         this.isAnalyzing = false;
         setTimeout(() => {
           this.successMessage = null;
-          // Navigate to trip-summary with query params
           this.router.navigate(['../../trip-summary'], {
-            queryParams: { userId: this.userId, startDate: payload.startDate },
+            queryParams: {
+              userId: this.userId,
+              startDate: payload.startDate,
+              wantHotelBooking: payload.wantHotelBooking.toString(),
+            },
             relativeTo: this.route,
           });
         }, 2000);

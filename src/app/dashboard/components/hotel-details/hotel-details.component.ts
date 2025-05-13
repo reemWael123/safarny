@@ -11,7 +11,7 @@ interface Hotel {
   rate: number;
   startPrice: number;
   features: string[];
-  images: string[];
+  images: { pictureUrl: string }[];
 }
 
 @Component({

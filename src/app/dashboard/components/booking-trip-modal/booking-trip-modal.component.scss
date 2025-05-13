@@ -1,0 +1,165 @@
+$primary-color: #b38c55;
+$secondary-color: #5b4825;
+$dark-color: #333;
+$light-color: #f9f7f2;
+$border-color: #e6d0b3;
+
+@mixin transition {
+  transition: all 0.3s ease;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: $light-color;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: $dark-color;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid $border-color;
+
+  h2 {
+    font-size: 1.8rem;
+    color: $primary-color;
+    margin: 0;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: $dark-color;
+    @include transition;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+.modal-body {
+  padding: 1.5rem;
+
+  p {
+    font-size: 1rem;
+    color: $dark-color;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    color: $dark-color;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.7rem;
+    border: 1px solid $border-color;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: $dark-color;
+    @include transition;
+
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+  }
+
+  .error {
+    color: #a94442;
+    font-size: 0.8rem;
+    margin-top: 0.3rem;
+  }
+}
+
+.error-message {
+  padding: 0.8rem;
+  background-color: #fff6f6;
+  border: 1px solid #ffcccc;
+  border-radius: 5px;
+  color: #a94442;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.success-message {
+  padding: 0.8rem;
+  background-color: #e6f4ea;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  color: #155724;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  .btn {
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    @include transition;
+  }
+
+  .btn-primary {
+    background: $primary-color;
+    color: white;
+
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
+
+    &[disabled] {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  }
+
+  .btn-secondary {
+    background: $secondary-color;
+    color: white;
+
+    &:hover {
+      background: darken($secondary-color, 10%);
+    }
+
+    &[disabled] {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  }
+}

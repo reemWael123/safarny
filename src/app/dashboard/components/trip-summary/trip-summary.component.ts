@@ -1,6 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TripSearchService } from 'src/app/services/trip-search.service';
+import {
+  BookingService,
+  TripBookingRequest,
+} from 'src/app/services/booking.service';
 import { Observable, of, forkJoin } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
@@ -34,6 +38,7 @@ interface TripPrice {
 export class TripSummaryComponent implements OnInit {
   userId: string = '';
   startDate: string = '';
+  wantHotelBooking: boolean = false;
   tripCities: TripCity[] = [];
   numberOfPeople: number = 1;
   tripPrice: TripPrice | null = null;
@@ -41,12 +46,16 @@ export class TripSummaryComponent implements OnInit {
   isCalculating: boolean = false;
   error: string | null = null;
   successMessage: string | null = null;
+  showBookingModal: boolean = false;
+  currentBookingId: string = '';
   placeholderImage: string =
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlZGU3ZDMiLz48dGV4dCB4PSI1MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OTk5OSI+Q29udGVudCB1bmRlciByZXZpZXc8L3RleHQ+PC9zdmc+';
 
   constructor(
     private route: ActivatedRoute,
     private tripService: TripSearchService,
+    private bookingService: BookingService,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -54,6 +63,7 @@ export class TripSummaryComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.userId = params['userId'] || 'bc616ee1-3aca-42fe-83fc-c43fde2cf740';
       this.startDate = params['startDate'] || '2025-04-27T00:00:00Z';
+      this.wantHotelBooking = Boolean(params['wantHotelBooking']) || false;
       this.loadTripSummary();
     });
   }
@@ -62,17 +72,14 @@ export class TripSummaryComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    // Fetch full trip summary
     this.tripService.getFullTripSummary(this.userId, this.startDate).subscribe({
       next: (cities) => {
         console.log('Full Trip Summary:', cities);
-        // Sort cities by startDate
         const sortedCities = cities.sort(
           (a, b) =>
             new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
         );
 
-        // Fetch place images for each city
         const placeRequests = sortedCities.map((city) =>
           this.tripService.getPlaces(city.cityId).pipe(
             map((places) => {
@@ -83,7 +90,7 @@ export class TripSummaryComponent implements OnInit {
               return {
                 cityId: city.cityId,
                 places: places.map((p) => ({
-                  placeId: p.id, // Use 'id' from getPlaces
+                  placeId: p.id,
                   pictureUrl: p.pictureUrl || this.placeholderImage,
                 })),
               };
@@ -111,7 +118,6 @@ export class TripSummaryComponent implements OnInit {
               const placesWithImages = city.places
                 .slice(0, 9)
                 .map((place: any) => {
-                  // Limit to 9 places for 3x3 grid
                   const pictureUrl =
                     placeImageMap.get(place.placeId) || this.placeholderImage;
                   if (!placeImageMap.has(place.placeId)) {
@@ -128,7 +134,7 @@ export class TripSummaryComponent implements OnInit {
               return { ...city, places: placesWithImages };
             });
             console.log('Trip Cities with Images:', this.tripCities);
-            this.cdr.detectChanges(); // Force change detection
+            this.cdr.detectChanges();
             this.isLoading = false;
           },
           error: (err) => {
@@ -138,7 +144,6 @@ export class TripSummaryComponent implements OnInit {
             this.tripCities = sortedCities.map((city) => ({
               ...city,
               places: city.places.slice(0, 9).map((place: any) => ({
-                // Limit to 9 places
                 ...place,
                 pictureUrl: this.placeholderImage,
               })),
@@ -147,7 +152,7 @@ export class TripSummaryComponent implements OnInit {
               'Trip Cities with Placeholder Images:',
               this.tripCities
             );
-            this.cdr.detectChanges(); // Force change detection
+            this.cdr.detectChanges();
             this.isLoading = false;
           },
         });
@@ -160,12 +165,65 @@ export class TripSummaryComponent implements OnInit {
     });
   }
 
-  handleImageError(event: Event, placeName: string): void {
-    console.error(
-      `Image failed to load for ${placeName}:`,
-      (event.target as HTMLImageElement).src
-    );
-    (event.target as HTMLImageElement).src = this.placeholderImage;
+  bookTripAndOpenModal(): void {
+    this.isCalculating = true;
+    this.error = null;
+    this.successMessage = null;
+
+    const bookingData: TripBookingRequest = {
+      userId: this.userId,
+      fullName: '',
+      email: '',
+      phoneNumber: '',
+    };
+
+    this.bookingService.bookTrip(bookingData).subscribe({
+      next: (response) => {
+        const bookingId = response.body?.bookingId;
+        if (!bookingId || isNaN(parseInt(bookingId, 10))) {
+          console.error(
+            'Invalid or missing bookingId from bookTrip API:',
+            response
+          );
+          this.error = 'Failed to create booking. Please try again.';
+          this.isCalculating = false;
+          setTimeout(() => (this.error = null), 3000);
+          this.cdr.detectChanges();
+          return;
+        }
+        this.successMessage = `Booking created! Opening booking details...`;
+        this.currentBookingId = bookingId;
+        this.showBookingModal = true;
+        this.isCalculating = false;
+        setTimeout(() => {
+          this.successMessage = null;
+        }, 2000);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error booking trip:', err);
+        this.error = 'Failed to book trip. Please try again.';
+        this.isCalculating = false;
+        setTimeout(() => (this.error = null), 3000);
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  closeBookingModal(): void {
+    this.showBookingModal = false;
+    this.currentBookingId = '';
+    this.cdr.detectChanges();
+  }
+
+  handleBookingComplete(bookingId: string): void {
+    this.successMessage = `Booking ${bookingId} completed!`;
+    this.showBookingModal = false;
+    this.currentBookingId = '';
+    setTimeout(() => {
+      this.successMessage = null;
+    }, 3000);
+    this.cdr.detectChanges();
   }
 
   calculateTripPrice(): void {
@@ -180,7 +238,11 @@ export class TripSummaryComponent implements OnInit {
     this.successMessage = null;
 
     this.tripService
-      .calculateTripPrice(this.userId, this.numberOfPeople)
+      .calculateTripPrice(
+        this.userId,
+        this.numberOfPeople,
+        this.wantHotelBooking
+      )
       .subscribe({
         next: (price) => {
           console.log('Trip Price:', price);
@@ -198,14 +260,11 @@ export class TripSummaryComponent implements OnInit {
       });
   }
 
-  bookNow(): void {
-    console.log('Book Now clicked:', {
-      userId: this.userId,
-      startDate: this.startDate,
-      numberOfPeople: this.numberOfPeople,
-      tripCities: this.tripCities,
-      tripPrice: this.tripPrice,
-    });
-    alert('Booking initiated!'); // Placeholder action
+  handleImageError(event: Event, placeName: string): void {
+    console.error(
+      `Image failed to load for ${placeName}:`,
+      (event.target as HTMLImageElement).src
+    );
+    (event.target as HTMLImageElement).src = this.placeholderImage;
   }
 }

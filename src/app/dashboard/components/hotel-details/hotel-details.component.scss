@@ -1,4 +1,3 @@
-// hotel-details.component.scss
 .hotel-details-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -17,7 +16,7 @@
       height: 40px;
       border: 4px solid rgba(0, 0, 0, 0.1);
       border-radius: 50%;
-      border-top: 4px solid #b38c55; // Changed from #0071c2
+      border-top: 4px solid #b38c55;
       animation: spin 1s linear infinite;
     }
 
@@ -39,24 +38,24 @@
   .error-message {
     text-align: center;
     padding: 40px 20px;
-    background-color: #fff9f0; // Changed to warmer tone
+    background-color: #fff9f0;
     border-radius: 8px;
-    border: 1px solid #e6d0b3; // Changed to match theme
+    border: 1px solid #e6d0b3;
 
     i {
       font-size: 48px;
-      color: #b38c55; // Changed from #e74c3c
+      color: #b38c55;
       margin-bottom: 16px;
     }
 
     p {
-      color: #8c6d42; // Changed to darker shade of gold
+      color: #8c6d42;
       margin-bottom: 20px;
     }
 
     .back-btn {
       padding: 10px 20px;
-      background-color: #b38c55; // Changed from #0071c2
+      background-color: #b38c55;
       color: white;
       border: none;
       border-radius: 4px;
@@ -64,7 +63,7 @@
       font-weight: bold;
 
       &:hover {
-        background-color: #996e3d; // Darker shade for hover
+        background-color: #996e3d;
       }
     }
   }
@@ -94,7 +93,7 @@
           margin-right: 8px;
 
           i {
-            color: #b38c55; // Changed from #ffc107
+            color: #b38c55;
             margin-right: 2px;
           }
         }
@@ -112,45 +111,46 @@
 
         i {
           margin-right: 8px;
-          color: #b38c55; // Changed from #0071c2
+          color: #b38c55;
         }
       }
     }
 
     .hotel-gallery {
       .gallery-container {
-        .main-image {
-          height: 400px;
-          overflow: hidden;
+        .image-grid {
+          .image-row {
+            display: grid;
+            gap: 2px;
+            margin-bottom: 2px;
 
-          img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-        }
-
-        .thumbnail-row {
-          display: flex;
-          height: 100px;
-
-          .thumbnail {
-            flex: 1;
-            overflow: hidden;
-            border-right: 2px solid white;
-
-            &:last-child {
-              border-right: none;
+            &.first-row {
+              grid-template-columns: repeat(
+                2,
+                1fr
+              ); /* 2 images in the first row */
             }
 
-            img {
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              transition: transform 0.3s ease;
+            &.second-row {
+              grid-template-columns: repeat(
+                3,
+                1fr
+              ); /* 3 images in the second row */
+            }
 
-              &:hover {
-                transform: scale(1.05);
+            .gallery-image {
+              height: 200px; /* Consistent height for all images */
+              overflow: hidden;
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+
+                &:hover {
+                  transform: scale(1.05);
+                }
               }
             }
           }
@@ -159,7 +159,7 @@
     }
 
     .default-image {
-      height: 300px;
+      height: 200px; /* Adjusted to match gallery image height */
       overflow: hidden;
 
       img {
@@ -201,7 +201,7 @@
           align-items: center;
 
           i {
-            color: #b38c55; // Changed from #4caf50
+            color: #b38c55;
             margin-right: 8px;
           }
 
@@ -217,7 +217,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: #faf7f2; // Changed to warm light background
+      background-color: #faf7f2;
 
       .price-info {
         display: flex;
@@ -231,7 +231,7 @@
         .price-amount {
           font-size: 28px;
           font-weight: bold;
-          color: #b38c55; // Changed from #0071c2
+          color: #b38c55;
         }
 
         .price-night {
@@ -242,7 +242,7 @@
 
       .view-rooms-btn {
         padding: 12px 24px;
-        background-color: #b38c55; // Changed from #0071c2
+        background-color: #b38c55;
         color: white;
         border: none;
         border-radius: 4px;
@@ -251,7 +251,7 @@
         transition: background-color 0.2s ease;
 
         &:hover {
-          background-color: #996e3d; // Darker shade for hover
+          background-color: #996e3d;
         }
       }
     }

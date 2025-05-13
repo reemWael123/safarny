@@ -31,7 +31,7 @@ interface SearchFilters {
 
 interface Trip {
   cityName: string;
-  places: { placeId: number; placeName: string; pictureUrl?: string }[]; // Add pictureUrl
+  places: { placeId: number; placeName: string; pictureUrl?: string }[];
   hotels: {
     hotelId: number;
     hotelName: string;
@@ -39,6 +39,13 @@ interface Trip {
     pricePerNight: number;
     selected?: boolean;
   }[];
+}
+
+interface Hotel {
+  hotelId: number;
+  hotelName: string;
+  rating: number;
+  pricePerNight: number;
 }
 
 @Injectable({
@@ -55,7 +62,6 @@ export class TripSearchService {
 
   getPlaces(cityId: number): Observable<Place[]> {
     let url = `${this.apiBaseUrl}/Trip/places-hotels/${cityId}`;
-
     return this.http.get<Place[]>(url).pipe(
       map((response: any) => response.touristPlaces),
       catchError((error) => {
@@ -145,16 +151,28 @@ export class TripSearchService {
 
   calculateTripPrice(
     userId: string,
-    numberOfPeople: number
+    numberOfPeople: number,
+    wantHotelBooking: boolean
   ): Observable<{ totalTripPrice: number; pricePerPerson: number }> {
     return this.http
       .get<{ totalTripPrice: number; pricePerPerson: number }>(
-        `${this.apiBaseUrl}/TripCart/calculate-trip-price?userId=${userId}&numberOfPeople=${numberOfPeople}`
+        `${this.apiBaseUrl}/TripCart/calculate-trip-price?userId=${userId}&numberOfPeople=${numberOfPeople}&wantHotelBooking=${wantHotelBooking}`
       )
       .pipe(
         catchError((error) => {
           console.error('Error calculating trip price:', error);
           return of({ totalTripPrice: 0, pricePerPerson: 0 });
+        })
+      );
+  }
+
+  getAllHotels(cityId: number): Observable<Hotel[]> {
+    return this.http
+      .get<Hotel[]>(`${this.apiBaseUrl}/TripCart/all-hotels?cityId=${cityId}`)
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching all hotels:', error);
+          return of([]);
         })
       );
   }
