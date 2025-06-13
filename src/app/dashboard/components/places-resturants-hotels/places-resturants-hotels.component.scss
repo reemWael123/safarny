@@ -70,3 +70,111 @@
   border-color: #b38c55;
   box-shadow: 0 0 8px rgba(179, 140, 85, 0.3);
 }
+
+.custom-card {
+  width: 100%;
+  height: 380px; /* Increased height for a more balanced look */
+  display: flex;
+  flex-direction: column;
+  border: none; /* No default border */
+  border-radius: 16px; /* Softer rounded corners */
+  overflow: hidden; /* Ensure content respects rounded corners */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08); /* Softer, larger shadow */
+  background: #fff; /* White background for clean look */
+  transition: transform 0.4s ease, box-shadow 0.4s ease; /* Smoother transitions */
+  text-decoration: none; /* Remove underline from link */
+}
+
+.custom-card:hover {
+  transform: translateY(-8px); /* More pronounced lift on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.card-img-wrapper {
+  position: relative;
+  height: 220px; /* Slightly taller image area */
+  overflow: hidden; /* Keep image within bounds */
+}
+
+.custom-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover; /* Ensure image scales properly */
+  transition: transform 0.4s ease; /* Smooth zoom effect */
+}
+
+.custom-card:hover .custom-img {
+  transform: scale(1.08); /* Subtle zoom on hover */
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.3)
+  ); /* Subtle gradient overlay */
+  opacity: 0.7; /* Soft overlay for better text readability */
+  transition: opacity 0.4s ease;
+}
+
+.custom-card:hover .card-overlay {
+  opacity: 0.9; /* Slightly darker on hover */
+}
+
+.card-body {
+  padding: 20px; /* More generous padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  background: #fafafa; /* Light gray background for contrast */
+}
+
+.card-title {
+  font-size: 1.3rem; /* Larger, more elegant title */
+  font-weight: 700; /* Bolder for emphasis */
+  color: #2b2b2b; /* Darker color for contrast */
+  margin-bottom: 12px; /* More space below title */
+  line-height: 1.4; /* Better readability */
+}
+
+.read-more-btn {
+  background-color: #b38c55; /* Specified color */
+  border: none;
+  color: #fff;
+  padding: 10px 20px; /* Larger, more comfortable button */
+  border-radius: 10px; /* Softer button corners */
+  font-size: 0.95rem; /* Slightly larger text */
+  font-weight: 500; /* Medium weight for elegance */
+  text-transform: uppercase; /* Uppercase for a premium feel */
+  letter-spacing: 0.5px; /* Slight letter spacing */
+  transition: background-color 0.3s ease, transform 0.3s ease,
+    box-shadow 0.3s ease;
+  text-decoration: none; /* Remove underline from button link */
+  display: inline-block; /* Ensure proper link behavior */
+}
+
+.read-more-btn:hover {
+  background-color: #a07a44; /* Darker shade for hover */
+  transform: translateY(-3px); /* Lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+.read-more-btn:active {
+  transform: translateY(0); /* Reset on click */
+  box-shadow: none; /* Remove shadow on click */
+}
+
+/* Ensure no underline on any link within the card */
+.custom-card a,
+.custom-card a:hover,
+.custom-card a:active,
+.custom-card a:focus {
+  text-decoration: none; /* Explicitly remove underlines */
+  color: #fff; /* Inherit text color to avoid default link styles */
+}

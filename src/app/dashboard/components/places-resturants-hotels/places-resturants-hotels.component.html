@@ -41,16 +41,24 @@
         class="card custom-card"
         [routerLink]="['/dashboard/home/details', item.id]"
       >
-        <img
-          class="card-img-top custom-img"
-          [src]="item.pictureUrl"
-          alt="Card image"
-        />
+        <div class="card-img-wrapper">
+          <img
+            class="card-img-top custom-img"
+            [src]="item.pictureUrl"
+            alt="{{ item.name }}"
+          />
+          <div class="card-overlay"></div>
+        </div>
         <div class="card-body">
           <h5 class="card-title">{{ item.name }}</h5>
-          <a [routerLink]="['/PRH', item.id]" class="btn btn-primary" (click)="storePlaceId(item.id)"
-            >Read more</a
+          {{ item.city }}
+          <a
+            [routerLink]="['/PRH', item.id]"
+            class="btn read-more-btn"
+            (click)="storePlaceId(item.id)"
           >
+            Read more
+          </a>
         </div>
       </a>
     </div>
@@ -104,7 +112,6 @@
         <div class="card">
           <h4 class="text-center">Choose Your Preferences</h4>
           <div class="row">
-         
             <div class="col-md-6">
               <!-- Type -->
               <div class="mb-3">
@@ -172,8 +179,6 @@
                 </div>
               </div>
             </div>
-
-            
 
             <div class="col-md-6">
               <!-- Meal Time -->
