@@ -35,8 +35,8 @@
 </div>
 
 <div class="container">
-  <div class="row" *ngIf="places">
-    <div class="col-md-4" *ngFor="let item of places">
+  <div class="row " *ngIf="places" >
+    <div class="col-md-4 mb-3" *ngFor="let item of places">
       <a
         class="card custom-card"
         [routerLink]="['/dashboard/home/details', item.id]"
@@ -48,9 +48,15 @@
         />
         <div class="card-body">
           <h5 class="card-title">{{ item.name }}</h5>
-          <a [routerLink]="['/PRH', item.id]" class="btn btn-primary" (click)="storePlaceId(item.id)"
-            >Read more</a
-          >
+        <a 
+  [routerLink]="['/PRH', item.id]" 
+  (click)="storePlaceId(item.id)"
+  class="read-more-btn"
+>
+  READ MORE <span class="arrow">→</span>
+</a>
+
+          
         </div>
       </a>
     </div>

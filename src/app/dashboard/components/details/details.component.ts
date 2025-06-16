@@ -48,6 +48,7 @@ console.log(username)
       }
     });
 }
+
 getactivites(id:number){
   
   this._generalservice.getdetails(id).subscribe({

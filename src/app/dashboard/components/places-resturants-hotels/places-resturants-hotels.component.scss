@@ -70,3 +70,23 @@
   border-color: #b38c55;
   box-shadow: 0 0 8px rgba(179, 140, 85, 0.3);
 }
+.read-more-btn {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  color: #f59f0b98; /* برتقالي */
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.read-more-btn:hover {
+  text-decoration: underline;
+  transform: translateX(3px);
+}
+
+.read-more-btn .arrow {
+  margin-left: 6px;
+  font-size: 16px;
+}
