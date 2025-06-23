@@ -1,0 +1,159 @@
+.hotels-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  padding: 24px;
+}
+
+.hotel-card-wrapper {
+  flex: 0 0 calc(33.333% - 16px);
+  max-width: calc(33.333% - 16px);
+
+  @media (max-width: 992px) {
+    flex: 0 0 calc(50% - 16px);
+    max-width: calc(50% - 16px);
+  }
+
+  @media (max-width: 576px) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+.hotel-card-link {
+  display: block;
+  text-decoration: none;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.hotel-card-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.hotel-card-content {
+  padding: 20px;
+}
+
+.hotel-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.hotel-rating {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 16px;
+  font-weight: 500;
+}
+
+.hotel-action-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+
+  &.primary-btn {
+    background-color: #007bff;
+    color: #ffffff;
+    margin-right: 12px;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  &.secondary-btn {
+    background-color: #6c757d;
+    color: #ffffff;
+
+    &:hover {
+      background-color: #545b62;
+    }
+  }
+}
+
+.loading-container,
+.error-container {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* New filter styles */
+.filter-container {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.filter-group {
+  flex: 1;
+  min-width: 200px;
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: #fff;
+    transition: border-color 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: #007bff;
+    }
+  }
+}
+
+.reset-btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #c82333;
+  }
+}

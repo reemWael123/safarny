@@ -64,26 +64,25 @@
     </div>
   </div>
 
-  <div class="row" *ngIf="hotels">
-    <div class="col-md-4" *ngFor="let hotel of hotels">
-      <a class="card custom-card">
+  <div class="hotels-container" *ngIf="hotels">
+    <div class="hotel-card-wrapper" *ngFor="let hotel of hotels">
+      <a class="hotel-card-link">
         <img
-          class="card-img-top custom-img"
+          class="hotel-card-image"
           [src]="hotel.pictureUrl"
-          alt="Card image"
+          alt="Hotel image"
         />
-        <div class="card-body">
-          <h5 class="card-title">{{ hotel.name }}</h5>
-          <p class="rating">rate: {{ hotel.rate }}</p>
+        <div class="hotel-card-content">
+          <h5 class="hotel-card-title">{{ hotel.name }}</h5>
+          <p class="hotel-rating">Rate: {{ hotel.rate }}</p>
           <a
             [routerLink]="['/dashboard/home/hotel-rooms', hotel.id]"
-            class="btn btn-primary"
+            class="hotel-action-btn primary-btn"
             >Rooms</a
           >
           <a
-            style="margin-left: 30px"
             [routerLink]="['/dashboard/home/hotel-details', hotel.id]"
-            class="btn btn-primary"
+            class="hotel-action-btn secondary-btn"
             >Read more</a
           >
         </div>

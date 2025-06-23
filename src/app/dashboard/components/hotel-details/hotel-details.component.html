@@ -18,7 +18,11 @@
         <div class="stars">
           <i
             class="fa fa-star"
-            *ngFor="let star of getStarsArray(hotel.rate)"
+            *ngFor="let star of getStarsArray(hotel.rate).full"
+          ></i>
+          <i
+            class="fa fa-star-half-o"
+            *ngIf="getStarsArray(hotel.rate).half"
           ></i>
         </div>
         <span class="rating-text">{{ hotel.rate }}-Star Hotel</span>

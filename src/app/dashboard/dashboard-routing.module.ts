@@ -19,6 +19,7 @@ import { BookingConfirmationComponent } from './components/booking-confirmation/
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
 import { TripSummaryComponent } from './components/trip-summary/trip-summary.component';
+import { HotelsListComponent } from './components/hotels-list/hotels-list.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,8 @@ const routes: Routes = [
       { path: 'home/PRH/:id', component: PlacesResturantsHotelsComponent },
       { path: 'home/hotel-rooms/:hotelId', component: HotelRoomsComponent },
       { path: 'home/hotel-details/:hotelId', component: HotelDetailsComponent },
+
+      { path: 'home/hotels-list', component: HotelsListComponent },
       {
         path: 'home/booking-confirmation/:bookingId',
         component: BookingConfirmationComponent,

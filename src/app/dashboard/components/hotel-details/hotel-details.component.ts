@@ -58,9 +58,14 @@ export class HotelDetailsComponent implements OnInit {
   }
 
   // Helper method to generate an array for star rating display
-  getStarsArray(rating: number): number[] {
-    return Array(rating)
-      .fill(0)
-      .map((_, i) => i + 1);
+  getStarsArray(rating: number): { full: number[]; half: boolean } {
+    const fullStars = Math.floor(rating); // Number of full stars
+    const hasHalfStar = rating % 1 >= 0.5; // Check if there's a half-star
+    return {
+      full: Array(fullStars)
+        .fill(0)
+        .map((_, i) => i + 1),
+      half: hasHalfStar,
+    };
   }
 }

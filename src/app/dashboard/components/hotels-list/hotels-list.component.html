@@ -1,0 +1,62 @@
+<div class="filter-container">
+  <form [formGroup]="filterForm">
+    <div class="filter-group">
+      <label for="cityId">City</label>
+      <select formControlName="cityId" id="cityId">
+        <option value="">All Cities</option>
+        <option *ngFor="let city of cities" [value]="city.id">
+          {{ city.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="minRate">Minimum Rate</label>
+      <select formControlName="minRate" id="minRate">
+        <option value="">Any</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="4.5">4.5+</option>
+        <option value="5">5</option>
+      </select>
+    </div>
+
+    <button type="button" class="reset-btn" (click)="resetFilters()">
+      Reset Filters
+    </button>
+  </form>
+</div>
+
+<div class="hotels-container" *ngIf="!isLoading && !error">
+  <div class="hotel-card-wrapper" *ngFor="let hotel of filteredHotels">
+    <a class="hotel-card-link">
+      <img
+        class="hotel-card-image"
+        [src]="hotel.pictureUrl"
+        alt="{{ hotel.name }}"
+      />
+      <div class="hotel-card-content">
+        <h5 class="hotel-card-title">{{ hotel.name }}</h5>
+        <p class="hotel-rating">Rate: {{ hotel.rate }}</p>
+        <a
+          (click)="navigateToRooms(hotel.id)"
+          class="hotel-action-btn primary-btn"
+          >Rooms</a
+        >
+        <a
+          (click)="navigateToDetails(hotel.id)"
+          class="hotel-action-btn secondary-btn"
+          >Read more</a
+        >
+      </div>
+    </a>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="loading-container">
+  <p>Loading hotels...</p>
+</div>
+
+<div *ngIf="error" class="error-container">
+  <p>{{ error }}</p>
+</div>

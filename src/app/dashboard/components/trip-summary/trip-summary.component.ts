@@ -50,6 +50,10 @@ export class TripSummaryComponent implements OnInit {
   currentBookingId: string = '';
   placeholderImage: string =
     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iODAiIGZpbGw9IiNlZGU3ZDMiLz48dGV4dCB4PSI1MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzk5OTk5OSI+Q29udGVudCB1bmRlciByZXZpZXc8L3RleHQ+PC9zdmc+';
+  showCityPrompt: boolean = true;
+  confirm: boolean = false;
+  selectedCity: string = '';
+  showCityDropdown: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -62,10 +66,32 @@ export class TripSummaryComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.userId = params['userId'] || 'bc616ee1-3aca-42fe-83fc-c43fde2cf740';
-      this.startDate = params['startDate'] || '2025-04-27T00:00:00Z';
+      this.startDate = decodeURIComponent(
+        params['startDate'] || '2025-04-27T00:00:00.000Z'
+      );
       this.wantHotelBooking = Boolean(params['wantHotelBooking']) || false;
       this.loadTripSummary();
     });
+  }
+
+  setCityPreference(wantSpecificCity: boolean): void {
+    this.showCityPrompt = false;
+    this.confirm = wantSpecificCity;
+    this.showCityDropdown = wantSpecificCity;
+    if (!wantSpecificCity) {
+      this.cdr.detectChanges();
+    }
+    this.cdr.detectChanges();
+  }
+
+  onCitySelected(): void {
+    if (this.selectedCity) {
+      this.loadSmartTripSummary();
+    } else {
+      this.error = 'Please select a city.';
+      setTimeout(() => (this.error = null), 3000);
+    }
+    this.cdr.detectChanges();
   }
 
   loadTripSummary(): void {
@@ -91,6 +117,7 @@ export class TripSummaryComponent implements OnInit {
                 cityId: city.cityId,
                 places: places.map((p) => ({
                   placeId: p.id,
+                  placeName: p.name,
                   pictureUrl: p.pictureUrl || this.placeholderImage,
                 })),
               };
@@ -161,8 +188,117 @@ export class TripSummaryComponent implements OnInit {
         console.error('Error loading trip summary:', err);
         this.error = 'Failed to load trip summary. Please try again.';
         this.isLoading = false;
+        this.cdr.detectChanges();
       },
     });
+  }
+
+  loadSmartTripSummary(): void {
+    this.isLoading = true;
+    this.error = null;
+
+    this.tripService
+      .getSmartTripSummary(
+        this.userId,
+        this.startDate,
+        this.confirm,
+        this.selectedCity
+      )
+      .subscribe({
+        next: (cities) => {
+          console.log('Smart Trip Summary:', cities);
+          const sortedCities = cities.sort(
+            (a, b) =>
+              new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+          );
+
+          const placeRequests = sortedCities.map((city) =>
+            this.tripService.getPlaces(city.cityId).pipe(
+              map((places) => {
+                console.log(
+                  `Places for cityId ${city.cityId} (${city.cityName}):`,
+                  places
+                );
+                return {
+                  cityId: city.cityId,
+                  places: places.map((p) => ({
+                    placeId: p.id,
+                    placeName: p.name,
+                    pictureUrl: p.pictureUrl || this.placeholderImage,
+                  })),
+                };
+              }),
+              catchError((err) => {
+                console.error(
+                  `Error loading places for city ${city.cityId} (${city.cityName}):`,
+                  err
+                );
+                return of({ cityId: city.cityId, places: [] });
+              })
+            )
+          );
+
+          forkJoin(placeRequests).subscribe({
+            next: (placeResponses) => {
+              this.tripCities = sortedCities.map((city) => {
+                const placeData = placeResponses.find(
+                  (pr) => pr.cityId === city.cityId
+                );
+                const placeImageMap = new Map<number, string>(
+                  placeData?.places.map((p) => [p.placeId, p.pictureUrl]) || []
+                );
+
+                const placesWithImages = city.places
+                  .slice(0, 9)
+                  .map((place: any) => {
+                    const pictureUrl =
+                      placeImageMap.get(place.placeId) || this.placeholderImage;
+                    if (!placeImageMap.has(place.placeId)) {
+                      console.warn(
+                        `No image found for placeId ${place.placeId} (${place.placeName}) in cityId ${city.cityId}`
+                      );
+                    }
+                    console.log(
+                      `Mapping placeId ${place.placeId} (${place.placeName}): pictureUrl=${pictureUrl}`
+                    );
+                    return { ...place, pictureUrl };
+                  });
+
+                return { ...city, places: placesWithImages };
+              });
+              console.log('Trip Cities with Images:', this.tripCities);
+              // Removed showCityDropdown = false to keep dropdown visible
+              this.cdr.detectChanges();
+              this.isLoading = false;
+            },
+            error: (err) => {
+              console.error('Error loading place images:', err);
+              this.error =
+                'Failed to load place images, but smart trip summary loaded.';
+              this.tripCities = sortedCities.map((city) => ({
+                ...city,
+                places: city.places.slice(0, 9).map((place: any) => ({
+                  ...place,
+                  pictureUrl: this.placeholderImage,
+                })),
+              }));
+              console.log(
+                'Trip Cities with Placeholder Images:',
+                this.tripCities
+              );
+              // Keep dropdown visible even on error
+              this.cdr.detectChanges();
+              this.isLoading = false;
+            },
+          });
+        },
+        error: (err) => {
+          console.error('Error loading smart trip summary:', err);
+          this.error = 'Failed to load smart trip summary. Please try again.';
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        },
+      });
   }
 
   bookTripAndOpenModal(): void {

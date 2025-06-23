@@ -136,14 +136,35 @@ export class TripSearchService {
   }
 
   getFullTripSummary(userId: string, startDate: string): Observable<any[]> {
-    const encodedStartDate = encodeURIComponent(startDate);
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('startDate', startDate); // Avoid manual encoding
     return this.http
-      .get<any[]>(
-        `${this.apiBaseUrl}/TripCart/full-trip-summary?userId=${userId}&startDate=${encodedStartDate}`
-      )
+      .get<any[]>(`${this.apiBaseUrl}/TripCart/full-trip-summary`, { params })
       .pipe(
         catchError((error) => {
           console.error('Error fetching full trip summary:', error);
+          return of([]);
+        })
+      );
+  }
+
+  getSmartTripSummary(
+    userId: string,
+    startDate: string,
+    confirm: boolean,
+    selectedCity: string
+  ): Observable<any[]> {
+    const params = new HttpParams()
+      .set('userId', userId)
+      .set('startDate', startDate) // Pass startDate directly
+      .set('confirm', confirm.toString())
+      .set('selectedCity', selectedCity);
+    return this.http
+      .get<any[]>(`${this.apiBaseUrl}/TripCart/smart-trip-summary`, { params })
+      .pipe(
+        catchError((error) => {
+          console.error('Error fetching smart trip summary:', error);
           return of([]);
         })
       );

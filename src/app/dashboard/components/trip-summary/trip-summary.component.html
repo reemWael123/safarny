@@ -3,6 +3,37 @@
 </header>
 <div class="safarny-container">
   <div class="summary-container">
+    <!-- City Selection Prompt -->
+    <div *ngIf="showCityPrompt && !isLoading" class="city-selection-prompt">
+      <h3>Would you like to start your trip from a specific city?</h3>
+      <div class="selection-buttons">
+        <button class="btn btn-primary" (click)="setCityPreference(true)">
+          Yes
+        </button>
+        <button class="btn btn-primary" (click)="setCityPreference(false)">
+          No
+        </button>
+      </div>
+    </div>
+
+    <!-- City Dropdown -->
+    <div *ngIf="showCityDropdown" class="city-selection">
+      <label for="selectedCity"
+        >Select Starting City (you can change this anytime)</label
+      >
+      <select
+        id="selectedCity"
+        [(ngModel)]="selectedCity"
+        (ngModelChange)="onCitySelected()"
+        class="city-dropdown"
+      >
+        <option value="" disabled selected>Select a city</option>
+        <option *ngFor="let city of tripCities" [value]="city.cityName">
+          {{ city.cityName }}
+        </option>
+      </select>
+    </div>
+
     <!-- Error message -->
     <div *ngIf="error" class="error-message">
       <p>{{ error }}</p>
@@ -127,7 +158,7 @@
       </div>
 
       <!-- Book Now Button -->
-      <div *ngIf="!isLoading && tripCities.length > 0" class="book-now">
+      <div class="book-now">
         <button
           class="btn btn-primary"
           (click)="bookTripAndOpenModal()"
@@ -148,7 +179,7 @@
       ></app-booking-trip-modal>
 
       <!-- Footer Credits -->
-      <div *ngIf="!isLoading && tripCities.length > 0" class="footer-credits">
+      <div class="footer-credits">
         <p>Provided by Memphis Tours</p>
         <p>
           <a

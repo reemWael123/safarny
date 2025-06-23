@@ -45,6 +45,7 @@ import { TripSummaryComponent } from './components/trip-summary/trip-summary.com
 import { UniquePlacesPipe } from './pipes/unique-places.pipe';
 import { ProfileComponent } from './components/profile/profile.component';
 import { BookingTripModalComponent } from './components/booking-trip-modal/booking-trip-modal.component';
+import { HotelsListComponent } from './components/hotels-list/hotels-list.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { BookingTripModalComponent } from './components/booking-trip-modal/booki
     UniquePlacesPipe,
     ProfileComponent,
     BookingTripModalComponent,
+    HotelsListComponent,
   ],
   imports: [
     CommonModule,
